@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UbiRock.Toolkit {
+namespace UbiRock.Wakizashi.Toolkit {
     public class Line {
         private Vector3 _pointA, _pointB;
 

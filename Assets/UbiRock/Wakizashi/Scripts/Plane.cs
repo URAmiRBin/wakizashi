@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UbiRock.Toolkit {
+namespace UbiRock.Wakizashi.Toolkit {
     public class Plane {
         private Vector3 _position;
         private Vector3 _normal;
