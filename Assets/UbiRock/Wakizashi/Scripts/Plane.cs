@@ -11,10 +11,10 @@ namespace UbiRock.Toolkit {
         }
 
         public Plane(Vector3 a, Vector3 b, Vector3 c) {
-            _normal = Vector3.Cross(b - a, c - a);
+            Normal = Vector3.Cross(b - a, c - a);
             _position = a;
         }
 
-        public Vector3 Normal { get => _normal; }
+        public Vector3 Normal { get => _normal; private set => _normal = Vector3.Normalize(value); }
     }
 }
