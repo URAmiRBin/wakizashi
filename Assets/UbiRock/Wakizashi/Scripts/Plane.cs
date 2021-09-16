@@ -23,8 +23,8 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             float difference = pointDistance - planeDistance;
 
-            if (difference > 0) return PointToPlaneRelation.TOP;
-            else if (difference < 0) return PointToPlaneRelation.BOTTOM;
+            if (difference > Constants.EPSILON) return PointToPlaneRelation.TOP;
+            else if (difference < -Constants.EPSILON) return PointToPlaneRelation.BOTTOM;
             else return PointToPlaneRelation.SURFACE;
         }
     }
