@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace UbiRock.Wakizashi.Toolkit {
-    public enum PointToPageRelation {
-        TOP, BOTTOM, ON
+    public enum PointToPlaneRelation {
+        TOP, BOTTOM, SURFACE
     }
 }
