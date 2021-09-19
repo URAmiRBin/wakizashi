@@ -8,5 +8,8 @@ namespace UbiRock.Wakizashi.Toolkit {
             _vertB = b;
             _vertC = c;
         }
+
+        public (Vertex, Vertex, Vertex) GetVertecies() => (_vertA, _vertB, _vertC);
+        public (Vector3, Vector3, Vector3) GetPositions() => (_vertA.Position, _vertB.Position, _vertC.Position);
     }
 }

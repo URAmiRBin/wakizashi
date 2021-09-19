@@ -29,5 +29,17 @@ namespace UbiRock.Wakizashi.Toolkit {
             else if (difference < -Constants.EPSILON) return PointToPlaneRelation.BOTTOM;
             else return PointToPlaneRelation.SURFACE;
         }
+
+        public PointToPlaneRelation[] GetTriangleToPlaneRelation(Tri tri) {
+            PointToPlaneRelation[] result = new PointToPlaneRelation[3];
+
+            var (a, b, c) = tri.GetPositions();
+
+            result[0] = GetPointToPlaneRelation(a);
+            result[1] = GetPointToPlaneRelation(b);
+            result[2] = GetPointToPlaneRelation(c);
+
+            return result;
+        }
     }
 }
