@@ -4,6 +4,6 @@ namespace UbiRock.Wakizashi.Toolkit {
     }
 
     public enum TrianglePlaneRelation {
-        NO_INTERSECTION, TWO_TRI, THREE_TRI, UNKNOWN
+        NO_INTERSECTION, TWO_TRI, THREE_TRI
     }
 }

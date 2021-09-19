@@ -49,7 +49,7 @@ namespace UbiRock.Wakizashi.Toolkit {
                         return TrianglePlaneRelation.NO_INTERSECTION;
                     return TrianglePlaneRelation.THREE_TRI;
                 default:
-                    return TrianglePlaneRelation.UNKNOWN;
+                    throw new System.NotSupportedException("UbiRock.Wakizashi:: This triangle relation to the plane can not be calculated.");
             }
         }
     }
