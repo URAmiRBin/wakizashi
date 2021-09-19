@@ -30,16 +30,27 @@ namespace UbiRock.Wakizashi.Toolkit {
             else return PointToPlaneRelation.SURFACE;
         }
 
-        public PointToPlaneRelation[] GetTriangleToPlaneRelation(Tri tri) {
-            PointToPlaneRelation[] result = new PointToPlaneRelation[3];
+        public TrianglePlaneRelation GetTriangleToPlaneRelation(Tri tri) {
+            PointToPlaneRelation[] relations = new PointToPlaneRelation[3];
 
             var (a, b, c) = tri.GetPositions();
+            var (ra, rb, rc) = (GetPointToPlaneRelation(a), GetPointToPlaneRelation(b), GetPointToPlaneRelation(c));
+            
+            if (ra == PointToPlaneRelation.SURFACE && ra == rb ||
+                rb == PointToPlaneRelation.SURFACE && rb == rc ||
+                rc == PointToPlaneRelation.SURFACE && rc == ra ) return TrianglePlaneRelation.NO_INTERSECTION;
 
-            result[0] = GetPointToPlaneRelation(a);
-            result[1] = GetPointToPlaneRelation(b);
-            result[2] = GetPointToPlaneRelation(c);
-
-            return result;
+            switch (Mathf.Abs((int)ra + (int)rb + (int)rc)) {
+                case 3: return TrianglePlaneRelation.NO_INTERSECTION;
+                case 2: return TrianglePlaneRelation.NO_INTERSECTION;
+                case 0: return TrianglePlaneRelation.TWO_TRI;
+                case 1:
+                    if (ra == PointToPlaneRelation.SURFACE || rb == PointToPlaneRelation.SURFACE || rc == PointToPlaneRelation.SURFACE)
+                        return TrianglePlaneRelation.NO_INTERSECTION;
+                    return TrianglePlaneRelation.THREE_TRI;
+                default:
+                    return TrianglePlaneRelation.UNKNOWN;
+            }
         }
     }
 }
