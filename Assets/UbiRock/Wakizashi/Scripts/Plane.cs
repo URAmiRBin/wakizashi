@@ -36,10 +36,6 @@ namespace UbiRock.Wakizashi.Toolkit {
             var (a, b, c) = tri.GetPositions();
             var (ra, rb, rc) = (GetPointToPlaneRelation(a), GetPointToPlaneRelation(b), GetPointToPlaneRelation(c));
             
-            if (ra == PointToPlaneRelation.SURFACE && ra == rb ||
-                rb == PointToPlaneRelation.SURFACE && rb == rc ||
-                rc == PointToPlaneRelation.SURFACE && rc == ra ) return TrianglePlaneRelation.NO_INTERSECTION;
-
             switch (Mathf.Abs((int)ra + (int)rb + (int)rc)) {
                 case 3: return TrianglePlaneRelation.NO_INTERSECTION;
                 case 2: return TrianglePlaneRelation.NO_INTERSECTION;
