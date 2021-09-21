@@ -11,6 +11,9 @@ namespace UbiRock.Wakizashi.Toolkit {
             Vector3 line = b - a;
 
             float t = (pDistance - Vector3.Dot(pNormal, a)) / Vector3.Dot(pNormal, line);
+
+            if (t >= -Constants.EPSILON && t <= 1 + Constants.EPSILON) return (Vector3.Lerp(a, b, t), true);
+            else return (Vector3.zero, false);
         }
 
         public static void Intersect(Plane plane, Tri tri) {
