@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 namespace UbiRock.Wakizashi.Toolkit {
@@ -16,13 +17,47 @@ namespace UbiRock.Wakizashi.Toolkit {
             var (a, b, c) = tri.GetPositions();
             bool[] pointRelations = plane.GetTriangleToPlaneRelation(tri);
 
-            // 1 : All the points are in one side
-            // 1.1 : One is on surface and two on same side
-            // 1.2 : Two on surface
+            TrianglePlaneRelation triangleStatus = plane.TrianglePlaneRelation(tri);
 
-            // 2 : One is one surface and two on different sides
+            if (triangleStatus == TrianglePlaneRelation.NO_INTERSECTION) return;
+            if (triangleStatus == TrianglePlaneRelation.TWO_TRI) {
+                if (a == PointToPlaneRelation.SURFACE) {
+                    // TODO: Add this to the final return
+                    Intersect(plane, b, c);
+                    return;
+                } else if (b == PointToPlaneRelation.SURFACE) {
+                    // TODO: Add this to the final return
+                    Intersect(place, a, c);
+                    return;
+                } else {
+                    // TODO: Add this to the final return
+                    Intersect(plane, a, b);
+                    return;
+                }
+            }
+            if (triangleStatus == TrianglePlaneRelation.THREE_TRI) {
+                if (pointRelations[0] != pointRelations[1]) {
+                    // TODO: Add this to the final return
+                    Intersect(plane, a, b);
 
-            // 3 : two points are in different sides
+                    if (pointRelations[2] == pointRelations[0]) {
+                        // TODO: Add this to the final return
+                        Intersect(plane, b, c);
+                        return;
+                    }
+                    else {
+                        // TODO: Add this to the final return
+                        Intersect(plane, a, c);
+                        return;
+                    }
+                }
+                else {
+                    // TODO: Add these to the final return
+                    Intersect(plane, a, c);
+                    Intersect(plane, b, c);
+                    return;
+                }
+            }
         }
     }
 }
