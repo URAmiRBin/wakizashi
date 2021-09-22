@@ -11,5 +11,10 @@ namespace UbiRock.Wakizashi.Toolkit {
 
         public (Vertex, Vertex, Vertex) GetVertecies() => (_vertA, _vertB, _vertC);
         public (Vector3, Vector3, Vector3) GetPositions() => (_vertA.Position, _vertB.Position, _vertC.Position);
+
+        public bool Split(Plane plane) {
+            Intersection intersection = Intersector.Intersect(plane, this);
+            return intersection == null ? false : true;
+        }
     }
 }
