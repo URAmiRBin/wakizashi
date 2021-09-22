@@ -1,10 +1,10 @@
 using UnityEngine;
 
 namespace UbiRock.Wakizashi.Toolkit {
-    public class Slice {
+    public class SlicedHull {
         private Mesh _topMesh, _bottomMesh;
 
-        public Slice(Mesh topMesh, Mesh bottomMesh) {
+        public SlicedHull(Mesh topMesh, Mesh bottomMesh) {
             _topMesh = topMesh;
             _bottomMesh = bottomMesh;
         }
