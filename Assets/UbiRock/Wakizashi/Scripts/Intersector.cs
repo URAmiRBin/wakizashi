@@ -3,16 +3,17 @@ using UnityEngine;
 
 namespace UbiRock.Wakizashi.Toolkit {
     public static class Intersector {
-        public static Vector3 Intersect(Plane plane, Line line) => Intersect(plane, line.PointA, line.PointB);
+        // public static Vector3 Intersect(Plane plane, Line line) => Intersect(plane, line.PointA, line.PointB);
 
-        public static Vector3 Intersect(Plane plane, Vector3 a, Vector3 b) {
+        public static Vertex Intersect(Plane plane, Vertex a, Vertex b) {
             Vector3 pNormal = plane.Normal;
             float pDistance = plane.Distance;
-            Vector3 line = b - a;
+            Vector3 line = b.Position - a.Position;
 
-            float t = (pDistance - Vector3.Dot(pNormal, a)) / Vector3.Dot(pNormal, line);
+            float t = (pDistance - Vector3.Dot(pNormal, a.Position)) / Vector3.Dot(pNormal, line);
+            Vector3 normal = Vector3.Normalize(a.Normal * (1 - t) + b.Normal * t);
 
-            if (t >= -Constants.EPSILON && t <= 1 + Constants.EPSILON) return Vector3.Lerp(a, b, t);
+            if (t >= -Constants.EPSILON && t <= 1 + Constants.EPSILON) return new Vertex(Vector3.Lerp(a.Position, b.Position, t), normal);
             else throw new System.InvalidOperationException("The given line and plane does not have an intersection");
         }
 
@@ -27,7 +28,7 @@ namespace UbiRock.Wakizashi.Toolkit {
             if (triangleStatus == TrianglePlaneRelation.TWO_TRI) {
                 if (ra == PointToPlaneRelation.SURFACE) {
                     // TODO: Calculate real normals
-                    Vertex i = new Vertex(Intersect(plane, b.Position, c.Position), a.Normal);
+                    Vertex i = Intersect(plane, b, c);
 
                     Tri tb = new Tri(b, a, i);
                     Tri tc = new Tri(c, a, i);
@@ -42,7 +43,7 @@ namespace UbiRock.Wakizashi.Toolkit {
                     return result;
                 } else if (rb == PointToPlaneRelation.SURFACE) {
                     // TODO: Calculate real normals
-                    Vertex i = new Vertex(Intersect(plane, a.Position, c.Position), a.Normal);
+                    Vertex i = Intersect(plane, a, c);
 
                     Tri ta = new Tri(a, b, i);
                     Tri tc = new Tri(c, b, i);
@@ -57,7 +58,7 @@ namespace UbiRock.Wakizashi.Toolkit {
                     return result;
                 } else {
                     // TODO: Calculate real normals
-                    Vertex i = new Vertex(Intersect(plane, a.Position, b.Position), a.Normal);
+                    Vertex i = Intersect(plane, a, b);
 
                     Tri ta = new Tri(a, c, i);
                     Tri tb = new Tri(b, c, i);
@@ -75,11 +76,11 @@ namespace UbiRock.Wakizashi.Toolkit {
             if (triangleStatus == TrianglePlaneRelation.THREE_TRI) {
                 if (ra != rb) {
                     // TODO: Calculate real normals
-                    Vertex i1 = new Vertex(Intersect(plane, a.Position, b.Position), a.Normal);
+                    Vertex i1 = Intersect(plane, a, b);
 
                     if (rc == ra) {
                         // TODO: Calculate real normals
-                        Vertex i2 = new Vertex(Intersect(plane, b.Position, c.Position), b.Normal);
+                        Vertex i2 = Intersect(plane, b, c);
 
                         Tri ta = new Tri(a, i1, i2);
                         Tri tc = new Tri(c, a, i2);
@@ -98,7 +99,7 @@ namespace UbiRock.Wakizashi.Toolkit {
                     }
                     else {
                         // TODO: Calculate real normals
-                        Vertex i2 = new Vertex(Intersect(plane, a.Position, c.Position), a.Normal);
+                        Vertex i2 = Intersect(plane, a, c);
 
                         Tri ta = new Tri(a, i1, i2);
                         Tri tb = new Tri(i1, b, c);
@@ -119,9 +120,9 @@ namespace UbiRock.Wakizashi.Toolkit {
                 }
                 else {
                     // TODO: Calculate real normals
-                    Vertex i1 = new Vertex(Intersect(plane, a.Position, c.Position), a.Normal);
+                    Vertex i1 = Intersect(plane, a, c);
                     // TODO: Calculate real normals
-                    Vertex i2 = new Vertex(Intersect(plane, b.Position, c.Position), b.Normal);
+                    Vertex i2 = Intersect(plane, b, c);
 
                     Tri ta = new Tri(a, b, i1);
                     Tri tb = new Tri(b, i2, i1);
