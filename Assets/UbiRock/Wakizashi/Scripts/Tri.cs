@@ -9,6 +9,12 @@ namespace UbiRock.Wakizashi.Toolkit {
             _vertC = c;
         }
 
+        public Tri(Vector3 a, Vector3 b, Vector3 c) {
+            _vertA = new Vertex(a);
+            _vertB = new Vertex(b);
+            _vertC = new Vertex(c);
+        }
+
         public (Vertex, Vertex, Vertex) GetVertecies() => (_vertA, _vertB, _vertC);
         public (Vector3, Vector3, Vector3) GetPositions() => (_vertA.Position, _vertB.Position, _vertC.Position);
 

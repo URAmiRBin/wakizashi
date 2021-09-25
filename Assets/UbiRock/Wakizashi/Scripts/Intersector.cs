@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace UbiRock.Wakizashi.Toolkit {
     public static class Intersector {
-        public static Vector3 Intersect(Plane plane, Line line) => Intersect(p, l.PointA, l.PointB);
+        public static Vector3 Intersect(Plane plane, Line line) => Intersect(plane, line.PointA, line.PointB);
 
         public static Vector3 Intersect(Plane plane, Vector3 a, Vector3 b) {
-            Vector3 pNormal = p.Normal;
-            float pDistance = p.Distance;
+            Vector3 pNormal = plane.Normal;
+            float pDistance = plane.Distance;
             Vector3 line = b - a;
 
             float t = (pDistance - Vector3.Dot(pNormal, a)) / Vector3.Dot(pNormal, line);
@@ -19,13 +19,13 @@ namespace UbiRock.Wakizashi.Toolkit {
         public static Intersection Intersect(Plane plane, Tri tri) {
             Intersection result = new Intersection();
             var (a, b, c) = tri.GetPositions();
-            bool[] pointRelations = plane.GetTriangleToPlaneRelation(tri);
+            PointToPlaneRelation[] pointRelations = plane.GetPointToPlaneRelations(tri);
 
-            TrianglePlaneRelation triangleStatus = plane.TrianglePlaneRelation(tri);
+            TrianglePlaneRelation triangleStatus = plane.GetTriangleToPlaneRelation(tri);
 
             if (triangleStatus == TrianglePlaneRelation.NO_INTERSECTION) return null;
             if (triangleStatus == TrianglePlaneRelation.TWO_TRI) {
-                if (a == PointToPlaneRelation.SURFACE) {
+                if (pointRelations[0] == PointToPlaneRelation.SURFACE) {
                     Vector3 i = Intersect(plane, b, c);
 
                     Tri tb = new Tri(b, a, i);
@@ -39,8 +39,8 @@ namespace UbiRock.Wakizashi.Toolkit {
                         result.AddBottomTri(tb);
                     }
                     return result;
-                } else if (b == PointToPlaneRelation.SURFACE) {
-                    Vector3 i = Intersect(place, a, c);
+                } else if (pointRelations[1] == PointToPlaneRelation.SURFACE) {
+                    Vector3 i = Intersect(plane, a, c);
 
                     Tri ta = new Tri(a, b, i);
                     Tri tc = new Tri(c, b, i);
@@ -96,7 +96,7 @@ namespace UbiRock.Wakizashi.Toolkit {
 
                         Tri ta = new Tri(a, i2, i1);
                         Tri tb = new Tri(i1, c, b);
-                        tri tc = new tri(i1, i2, c);
+                        Tri tc = new Tri(i1, i2, c);
 
                         if (pointRelations[0] == PointToPlaneRelation.TOP) {
                             result.AddTopTri(ta);
@@ -132,6 +132,7 @@ namespace UbiRock.Wakizashi.Toolkit {
                     return result;
                 }
             }
+            return null;
         }
     }
 }

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace UbiRock.Wakizashi.Toolkit {
     public class Intersection {
         private Tri[] topTriangles, bottomTriangles;
@@ -8,7 +6,7 @@ namespace UbiRock.Wakizashi.Toolkit {
         public Intersection() {
             topTriangles = new Tri[2];
             bottomTriangles = new Tri[2];
-            topTrianglesIndex = bottomTriangles = 0;
+            topTrianglesIndex = bottomTrianglesIndex = 0;
         }
 
         public void AddTopTri(Tri tri) => topTriangles[topTrianglesIndex++] = tri;

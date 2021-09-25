@@ -30,6 +30,12 @@ namespace UbiRock.Wakizashi.Toolkit {
             else return PointToPlaneRelation.SURFACE;
         }
 
+        public PointToPlaneRelation[] GetPointToPlaneRelations(Tri tri) {
+            var (a, b, c) = tri.GetPositions();
+            var (ra, rb, rc) = (GetPointToPlaneRelation(a), GetPointToPlaneRelation(b), GetPointToPlaneRelation(c));
+            return new PointToPlaneRelation[] {ra, rb, rc};
+        }
+
         public TrianglePlaneRelation GetTriangleToPlaneRelation(Tri tri) {
             PointToPlaneRelation[] relations = new PointToPlaneRelation[3];
 

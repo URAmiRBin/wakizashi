@@ -28,8 +28,8 @@ namespace UbiRock.Wakizashi.Toolkit {
         private GameObject CreateObjectAt(Mesh mesh, Vector3 position, string name = "generated mesh") {
             GameObject obj = new GameObject(name);
 
-            object.AddComponent<MeshRenderer>();
-            MeshFilter meshFilter = object.AddComponent<MeshFilter>();
+            obj.AddComponent<MeshRenderer>();
+            MeshFilter meshFilter = obj.AddComponent<MeshFilter>();
 
             meshFilter.mesh = mesh;
 

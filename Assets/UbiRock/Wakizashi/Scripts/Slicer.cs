@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UbiRock.Wakizashi.Toolkit {
@@ -11,7 +12,7 @@ namespace UbiRock.Wakizashi.Toolkit {
         }
 
         public static SlicedHull Slice(Mesh mesh, Plane plane) {
-            Vector3[] vertecies = mesh.vertecies;
+            Vector3[] vertices = mesh.vertices;
 
             int[] indices = mesh.GetTriangles(0);
             int indicesCount = indices.Length;
@@ -20,12 +21,12 @@ namespace UbiRock.Wakizashi.Toolkit {
             topTriangles = new List<Tri>();
             bottomTriangles = new List<Tri>();
 
-            for(int inndex = 0; index < indicesCount; index += 3) {
+            for(int index = 0; index < indicesCount; index += 3) {
                 int a = indices[index + 0];
                 int b = indices[index + 1];
                 int c = indices[index + 2];
 
-                Tri tri = new Tri(vertecies[a], vertecies[b], vertecies[c]);
+                Tri tri = new Tri(vertices[a], vertices[b], vertices[c]);
 
                 Intersection intersection = tri.Split(plane);
                 
@@ -33,9 +34,9 @@ namespace UbiRock.Wakizashi.Toolkit {
                     topTriangles.AddRange(intersection.TopTriangles);
                     bottomTriangles.AddRange(intersection.BottomTriangles);
                 } else {
-                    if (plane.GetPointToPlaneRelation(vertecies[a]) == PointToPlaneRelation.TOP ||
-                        plane.GetPointToPlaneRelation(vertecies[b]) == PointToPlaneRelation.TOP ||
-                        plane.GetPointToPlaneRelation(vertecies[c]) == PointToPlaneRelation.TOP ) {
+                    if (plane.GetPointToPlaneRelation(vertices[a]) == PointToPlaneRelation.TOP ||
+                        plane.GetPointToPlaneRelation(vertices[b]) == PointToPlaneRelation.TOP ||
+                        plane.GetPointToPlaneRelation(vertices[c]) == PointToPlaneRelation.TOP ) {
                             topTriangles.Add(tri);
                         } else bottomTriangles.Add(tri);
                 }
