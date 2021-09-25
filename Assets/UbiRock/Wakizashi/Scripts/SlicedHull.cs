@@ -21,6 +21,7 @@ namespace UbiRock.Wakizashi.Toolkit {
             GameObject obj = new GameObject(name);
             obj.transform.localPosition = transform.localPosition;
             obj.transform.localRotation = transform.localRotation;
+            obj.transform.localScale = transform.localScale;
 
             MeshRenderer meshRenderer = obj.AddComponent<MeshRenderer>();
             MeshFilter meshFilter = obj.AddComponent<MeshFilter>();
