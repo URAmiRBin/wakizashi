@@ -17,10 +17,14 @@ namespace UbiRock.Wakizashi {
 
 
             Toolkit.Plane p = new Toolkit.Plane(refPt, refUp);
+
+            Material material = meshToSlice.GetComponent<MeshRenderer>().material;
             
             SlicedHull result = Slicer.Slice(meshToSlice, p);
-            GameObject topObject = result.CreateTopMesh(meshToSlice.transform);
-            GameObject bottomObject = result.CreateBottomMesh(meshToSlice.transform);
+            GameObject topObject = result.CreateTopMesh(meshToSlice.transform, material);
+            GameObject bottomObject = result.CreateBottomMesh(meshToSlice.transform, material);
+
+            meshToSlice.SetActive(false);
         }
     }
 }
