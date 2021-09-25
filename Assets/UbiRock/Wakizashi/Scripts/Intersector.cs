@@ -115,9 +115,9 @@ namespace UbiRock.Wakizashi.Toolkit {
                     Vector3 i1 = Intersect(plane, a, c);
                     Vector3 i2 = Intersect(plane, b, c);
 
-                    Tri ta = new Tri(a, i2, i1);
+                    Tri ta = new Tri(a, b, i1);
                     Tri tb = new Tri(b, i2, i1);
-                    Tri tc = new Tri(i1, i2, c);
+                    Tri tc = new Tri(c, i1, i2);
 
                     if (pointRelations[2] == PointToPlaneRelation.TOP) {
                         result.AddBottomTri(ta);
