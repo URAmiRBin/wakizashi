@@ -9,9 +9,6 @@ namespace UbiRock.Wakizashi {
             SlicedHull result = Slicer.Slice(meshToSlice, p);
             GameObject topObject = result.CreateTopMesh(transform);
             GameObject bottomObject = result.CreateBottomMesh(transform);
-
-            Instantiate(topObject, transform.position, transform.rotation);
-            Instantiate(bottomObject, transform.position, transform.rotation);
         }
     }
 }
