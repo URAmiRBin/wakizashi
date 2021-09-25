@@ -19,19 +19,19 @@ namespace UbiRock.Wakizashi.Toolkit {
         public static Intersection Intersect(Plane plane, Tri tri) {
             Intersection result = new Intersection();
             var (a, b, c) = tri.GetPositions();
-            PointToPlaneRelation[] pointRelations = plane.GetPointToPlaneRelations(tri);
+            var (ra, rb, rc) = plane.GetPointToPlaneRelations(tri);
 
             TrianglePlaneRelation triangleStatus = plane.GetTriangleToPlaneRelation(tri);
 
             if (triangleStatus == TrianglePlaneRelation.NO_INTERSECTION) return null;
             if (triangleStatus == TrianglePlaneRelation.TWO_TRI) {
-                if (pointRelations[0] == PointToPlaneRelation.SURFACE) {
+                if (ra == PointToPlaneRelation.SURFACE) {
                     Vector3 i = Intersect(plane, b, c);
 
                     Tri tb = new Tri(b, a, i);
                     Tri tc = new Tri(c, a, i);
                     
-                    if (pointRelations[1] == PointToPlaneRelation.TOP) {
+                    if (ra == PointToPlaneRelation.TOP) {
                         result.AddTopTri(tb);
                         result.AddBottomTri(tc);
                     } else {
@@ -39,13 +39,13 @@ namespace UbiRock.Wakizashi.Toolkit {
                         result.AddBottomTri(tb);
                     }
                     return result;
-                } else if (pointRelations[1] == PointToPlaneRelation.SURFACE) {
+                } else if (rb == PointToPlaneRelation.SURFACE) {
                     Vector3 i = Intersect(plane, a, c);
 
                     Tri ta = new Tri(a, b, i);
                     Tri tc = new Tri(c, b, i);
 
-                    if (pointRelations[0] == PointToPlaneRelation.TOP) {
+                    if (ra == PointToPlaneRelation.TOP) {
                         result.AddTopTri(ta);
                         result.AddBottomTri(tc);
                     } else {
@@ -59,7 +59,7 @@ namespace UbiRock.Wakizashi.Toolkit {
                     Tri ta = new Tri(a, c, i);
                     Tri tb = new Tri(b, c, i);
 
-                    if (pointRelations[0] == PointToPlaneRelation.TOP) {
+                    if (ra == PointToPlaneRelation.TOP) {
                         result.AddTopTri(ta);
                         result.AddBottomTri(tb);
                     } else {
@@ -70,17 +70,17 @@ namespace UbiRock.Wakizashi.Toolkit {
                 }
             }
             if (triangleStatus == TrianglePlaneRelation.THREE_TRI) {
-                if (pointRelations[0] != pointRelations[1]) {
+                if (ra != rb) {
                     Vector3 i1 = Intersect(plane, a, b);
 
-                    if (pointRelations[2] == pointRelations[0]) {
+                    if (rc == ra) {
                         Vector3 i2 = Intersect(plane, b, c);
 
                         Tri ta = new Tri(a, i1, i2);
                         Tri tc = new Tri(c, a, i2);
                         Tri tb = new Tri(b, i2, i1);
 
-                        if (pointRelations[0] == PointToPlaneRelation.TOP) {
+                        if (ra == PointToPlaneRelation.TOP) {
                             result.AddTopTri(ta);
                             result.AddTopTri(tc);
                             result.AddBottomTri(tb);
@@ -98,7 +98,7 @@ namespace UbiRock.Wakizashi.Toolkit {
                         Tri tb = new Tri(i1, b, c);
                         Tri tc = new Tri(i2, i1, c);
 
-                        if (pointRelations[0] == PointToPlaneRelation.TOP) {
+                        if (ra == PointToPlaneRelation.TOP) {
                             result.AddTopTri(ta);
                             result.AddBottomTri(tb);
                             result.AddBottomTri(tc);
@@ -119,7 +119,7 @@ namespace UbiRock.Wakizashi.Toolkit {
                     Tri tb = new Tri(b, i2, i1);
                     Tri tc = new Tri(c, i1, i2);
 
-                    if (pointRelations[2] == PointToPlaneRelation.TOP) {
+                    if (rc == PointToPlaneRelation.TOP) {
                         result.AddBottomTri(ta);
                         result.AddBottomTri(tb);
                         result.AddTopTri(tc);
