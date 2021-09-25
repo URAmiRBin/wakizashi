@@ -13,6 +13,7 @@ namespace UbiRock.Wakizashi.Toolkit {
 
         public static SlicedHull Slice(Mesh mesh, Plane plane) {
             Vector3[] vertices = mesh.vertices;
+            Vector3[] normals = mesh.normals;
 
             int[] indices = mesh.GetTriangles(0);
             int indicesCount = indices.Length;
@@ -26,7 +27,7 @@ namespace UbiRock.Wakizashi.Toolkit {
                 int b = indices[index + 1];
                 int c = indices[index + 2];
 
-                Tri tri = new Tri(vertices[a], vertices[b], vertices[c]);
+                Tri tri = new Tri(new Vertex(vertices[a], normals[a]), new Vertex(vertices[b], normals[b]), new Vertex(vertices[c], normals[c]));
 
                 Intersection intersection = tri.Split(plane);
                 

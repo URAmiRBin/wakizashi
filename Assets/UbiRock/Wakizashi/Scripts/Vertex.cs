@@ -15,6 +15,11 @@ namespace UbiRock.Wakizashi.Toolkit {
             _hasUV = _hasNormal = false;
         }
 
+        public Vertex(Vector3 position, Vector3 normal) {
+            _position = position;
+            Normal = normal;
+        }
+
         public Vertex(Vector3 position, Vector2 uv) {
             _position = position;
             UV = uv;

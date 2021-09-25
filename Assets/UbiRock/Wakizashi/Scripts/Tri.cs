@@ -17,6 +17,7 @@ namespace UbiRock.Wakizashi.Toolkit {
 
         public (Vertex, Vertex, Vertex) GetVertecies() => (_vertA, _vertB, _vertC);
         public (Vector3, Vector3, Vector3) GetPositions() => (_vertA.Position, _vertB.Position, _vertC.Position);
+        public (Vector3, Vector3, Vector3) GetNormals() => (_vertA.Normal, _vertB.Normal, _vertC.Normal);
 
         public Intersection Split(Plane plane) {
             return Intersector.Intersect(plane, this);
