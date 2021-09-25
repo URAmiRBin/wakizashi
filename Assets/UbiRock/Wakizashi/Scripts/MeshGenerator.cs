@@ -9,7 +9,7 @@ namespace UbiRock.Wakizashi.Toolkit {
             Vector3[] vertecies = new Vector3[triangles.Count * 3];
             int[] indices = new int[triangles.Count * 3];
 
-            for(int i = 0; i < triangles.Count; i += 3) {
+            for(int i = 0; i < triangles.Count * 3; i += 3) {
                 (vertecies[i], vertecies[i + 1], vertecies[i + 2]) = triangles[i / 3].GetPositions();
 
                 indices[i] = i;
