@@ -4,9 +4,11 @@ using UbiRock.Wakizashi.Toolkit;
 namespace UbiRock.Wakizashi {
     public class MonoBehaviourSlicer : MonoBehaviour {
         public GameObject meshToSlice;
+        public GameObject plane;
+
         public void Slice() {
-            Vector3 position = Vector3.zero;
-            Vector3 direction = Vector3.up;
+            Vector3 position = plane.transform.position;
+            Vector3 direction = plane.transform.up;
 
             Matrix4x4 mat = meshToSlice.transform.worldToLocalMatrix;
             Matrix4x4 transpose = mat.transpose;
