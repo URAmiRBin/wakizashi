@@ -31,8 +31,12 @@ namespace UbiRock.Wakizashi.Toolkit {
                 Intersection intersection = tri.Split(plane);
                 
                 if (intersection != null) {
-                    topTriangles.AddRange(intersection.TopTriangles);
-                    bottomTriangles.AddRange(intersection.BottomTriangles);
+                    for (int i = 0; i < intersection.TopTrisCount; i++) {
+                        topTriangles.Add(intersection.TopTriangles[i]);
+                    }
+                    for (int i = 0; i < intersection.BottomTrisCount; i++) {
+                        bottomTriangles.Add(intersection.BottomTriangles[i]);
+                    }
                 } else {
                     if (plane.GetPointToPlaneRelation(vertices[a]) == PointToPlaneRelation.TOP ||
                         plane.GetPointToPlaneRelation(vertices[b]) == PointToPlaneRelation.TOP ||
