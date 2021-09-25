@@ -41,8 +41,10 @@ namespace UbiRock.Wakizashi.Toolkit {
                 }
             }
 
-            // TODO: Convert top and bottom triangles to meshes
-            // TODO: Pass the generated meshes to sliced hull and return
+            Mesh topMesh = MeshGenerator.CreateMeshFromTriangles(topTriangles);
+            Mesh bottomMesh = MeshGenerator.CreateMeshFromTriangles(bottomTriangles);
+            
+            return new SlicedHull(topMesh, bottomMesh);
         }
     }
 }
