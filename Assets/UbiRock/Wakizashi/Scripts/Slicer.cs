@@ -15,8 +15,11 @@ namespace UbiRock.Wakizashi.Toolkit {
             Vector3[] vertices = mesh.vertices;
             Vector3[] normals = mesh.normals;
 
+
             int[] indices = mesh.GetTriangles(0);
             int indicesCount = indices.Length;
+            Vertex[] newVerticesArray = new Vertex[indicesCount];
+            int newVerticesCount = 0;
 
             List<Tri> topTriangles, bottomTriangles;
             topTriangles = new List<Tri>();
@@ -30,6 +33,10 @@ namespace UbiRock.Wakizashi.Toolkit {
                 Tri tri = new Tri(new Vertex(vertices[a], normals[a]), new Vertex(vertices[b], normals[b]), new Vertex(vertices[c], normals[c]));
 
                 Intersection intersection = tri.Split(plane);
+                for (int i = 0; i < intersection.NewVerticesCount; i++) {
+                    newVerticesArray[i + newVerticesCount] = intersection.NewVertices[i];
+                }
+                newVerticesCount += intersection.NewVerticesCount;
                 
                 if (intersection != null) {
                     for (int i = 0; i < intersection.TopTrisCount; i++) {
@@ -46,6 +53,13 @@ namespace UbiRock.Wakizashi.Toolkit {
                         } else bottomTriangles.Add(tri);
                 }
             }
+
+            Vertex[] newVertices = new Vertex[newVerticesCount];
+            for (int i = 0; i < newVerticesCount; i++) newVertices[i] = newVerticesArray[i];
+
+            // TODO: Convex hull new vertices
+            // TODO: Triangulate fill surface
+            // TODO: Add generated surface to both top and bottom mesh
 
             Mesh topMesh = MeshGenerator.CreateMeshFromTriangles(topTriangles);
             Mesh bottomMesh = MeshGenerator.CreateMeshFromTriangles(bottomTriangles);
