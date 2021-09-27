@@ -447,6 +447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshToSlice: {fileID: 1758113099}
   plane: {fileID: 1702300361}
+  sliceMaterial: {fileID: 2100000, guid: 9725caee00b42154d908afb669ae0d08, type: 2}
 --- !u!1 &1029350366
 GameObject:
   m_ObjectHideFlags: 0
