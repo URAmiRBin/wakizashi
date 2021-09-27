@@ -14,10 +14,10 @@ namespace UbiRock.Wakizashi.Toolkit {
     public static class ConvexHull {
         static int upperHullIndex, lowerHullIndex;
         static Map[] clone;
-        private static (int[], int[]) SeperateHulls(Vertex[] vertices) {
+        private static (int[], int[]) SeperateHulls(Vertex[] vertices, Vector3 normal) {
             clone = new Map[vertices.Length];
 
-            for(int i = 0; i < clone.Length; i++) clone[i] = new Map(Vector3.ProjectOnPlane(vertices[i].Position, Vector3.up), i);
+            for(int i = 0; i < clone.Length; i++) clone[i] = new Map(Vector3.ProjectOnPlane(vertices[i].Position, normal), i);
             Array.Sort(clone, (x, y) => (x.position.x < y.position.x) || (x.position.x == y.position.x && x.position.x == 0.5f && x.position.z > y.position.z) || (x.position.x == y.position.x && x.position.x == -0.5f && x.position.z < y.position.z) || (x.position.x == y.position.x && x.position.z > y.position.z) ? -1 : 1);
 
 
@@ -50,9 +50,9 @@ namespace UbiRock.Wakizashi.Toolkit {
             return hullIndices;
         }
 
-        public static int[] GetConvexHull(Vertex[] vertices) {
+        public static int[] GetConvexHull(Vertex[] vertices, Vector3 normal) {
             for(int i = 0; i < vertices.Length; i++) Debug.Log(vertices[i].Position);
-            var (hull1, hull2) = SeperateHulls(vertices);
+            var (hull1, hull2) = SeperateHulls(vertices, normal);
             int[] indices = CalculateHull(hull1, hull2);
             int[] result = new int[indices.Length];
             for (int i = 0; i < indices.Length; i++) {
