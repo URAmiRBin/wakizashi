@@ -4,17 +4,20 @@ using UnityEngine;
 namespace UbiRock.Wakizashi.Toolkit {
     public static class ConvexHull {
         private static (int[], int[]) SeperateHulls(Vertex[] vertices) {
-            Array.Sort(vertices);
+            Vector3[] clone = new Vector3[vertices.Length];
+
+            for(int i = 0; i < clone.Length; i++) clone[i] = Vector3.ProjectOnPlane(vertices[i].Position, Vector3.up);
+            Array.Sort(clone, (x, y) => x.x >= y.x ? 1 : -1);
 
             int[] upperHull, lowerHull;
             upperHull = new int[vertices.Length];
             lowerHull = new int[vertices.Length];
-            int upperHullIndex, lowerHullIndex;
+            int upperHullIndex = 0, lowerHullIndex = 0;
 
             upperHull[upperHullIndex++] = 0;
 
-            for(int i = 1; i < vertices.Length; i++) {
-                if (vertices[i].Position.y >= vertices[0]) upperHull[upperHullIndex++] = i;
+            for(int i = 1; i < clone.Length; i++) {
+                if (clone[i].z <= clone[0].z) upperHull[upperHullIndex++] = i;
                 else lowerHull[lowerHullIndex++] = i;
             }
 
@@ -22,7 +25,7 @@ namespace UbiRock.Wakizashi.Toolkit {
         }
 
         private static int[] CalculateHull(int[] upperIndices, int[] lowerIndices) {
-            int[] hullIndices = upperIndices.Length + lowerIndices.Length;
+            int[] hullIndices = new int[upperIndices.Length + lowerIndices.Length];
             
             for (int i = 0; i < upperIndices.Length; i++)
                 hullIndices[i] = upperIndices[i];

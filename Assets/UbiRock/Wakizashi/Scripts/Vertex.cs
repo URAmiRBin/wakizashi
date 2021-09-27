@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace UbiRock.Wakizashi.Toolkit {
-    public class Vertex : IComparer {
+    public class Vertex : IEqualityComparer<Vertex> {
         Vector3 _position;
         Vector2 _uv;
         Vector3 _normal;
@@ -43,18 +43,16 @@ namespace UbiRock.Wakizashi.Toolkit {
 
         public Vector3 Normal {
             get => _normal;
-            private set {
+            set {
                 _normal = value;
                 _hasNormal = true;
             }
         }
 
-        int IComparer.Compare(object x, object y) {
-            Vertex v1 = (Vertex)x;
-            Vertex v2 = (Vertex)y;
-
-            if (v1.Position.x < v2.Position.x) return -1;
-            else return 1;
+        public bool Equals(Vertex g1, Vertex g2) {
+            return g1.Position == g2.Position;
         }
+
+        public int GetHashCode(Vertex v) => 0;
     }
 }
