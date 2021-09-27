@@ -96,14 +96,14 @@ namespace UbiRock.Wakizashi.Toolkit {
             // TODO: Account for concave
             for (int i = 0; i < veryNewVertices.Length - 1; i++) {
                 fillTriangles.Add(new Tri(
-                    new Vertex(sum),
+                    new Vertex(sum, plane.Normal),
                     veryNewVertices[hullIndices[i]],
                     veryNewVertices[hullIndices[i + 1]]
                     ));
             }
 
             fillTriangles.Add(new Tri(
-                    new Vertex(sum),
+                    new Vertex(sum, plane.Normal),
                     veryNewVertices[hullIndices[veryNewVertices.Length - 1]],
                     veryNewVertices[hullIndices[0]]
                     ));

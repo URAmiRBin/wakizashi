@@ -28,7 +28,7 @@ namespace UbiRock.Wakizashi.Toolkit {
                 if (ra == PointToPlaneRelation.SURFACE) {
                     // TODO: Calculate real normals
                     Vertex i = Intersect(plane, b, c);
-                    result.AddNewVertex(i);
+                    result.AddNewVertex(new Vertex(i.Position, plane.Normal));
 
                     Tri tb = new Tri(b, a, i);
                     Tri tc = new Tri(c, a, i);
@@ -44,7 +44,7 @@ namespace UbiRock.Wakizashi.Toolkit {
                 } else if (rb == PointToPlaneRelation.SURFACE) {
                     // TODO: Calculate real normals
                     Vertex i = Intersect(plane, a, c);
-                    result.AddNewVertex(i);
+                    result.AddNewVertex(new Vertex(i.Position, plane.Normal));
 
                     Tri ta = new Tri(a, b, i);
                     Tri tc = new Tri(c, b, i);
@@ -60,7 +60,7 @@ namespace UbiRock.Wakizashi.Toolkit {
                 } else {
                     // TODO: Calculate real normals
                     Vertex i = Intersect(plane, a, b);
-                    result.AddNewVertex(i);
+                    result.AddNewVertex(new Vertex(i.Position, plane.Normal));
 
                     Tri ta = new Tri(a, c, i);
                     Tri tb = new Tri(b, c, i);
@@ -79,12 +79,12 @@ namespace UbiRock.Wakizashi.Toolkit {
                 if (ra != rb) {
                     // TODO: Calculate real normals
                     Vertex i1 = Intersect(plane, a, b);
-                    result.AddNewVertex(i1);
+                    result.AddNewVertex(new Vertex(i1.Position, plane.Normal));
 
                     if (rc == ra) {
                         // TODO: Calculate real normals
                         Vertex i2 = Intersect(plane, b, c);
-                        result.AddNewVertex(i2);
+                        result.AddNewVertex(new Vertex(i2.Position, plane.Normal));
 
                         Tri ta = new Tri(a, i1, i2);
                         Tri tc = new Tri(c, a, i2);
@@ -104,7 +104,7 @@ namespace UbiRock.Wakizashi.Toolkit {
                     else {
                         // TODO: Calculate real normals
                         Vertex i2 = Intersect(plane, a, c);
-                        result.AddNewVertex(i2);
+                        result.AddNewVertex(new Vertex(i2.Position, plane.Normal));
 
                         Tri ta = new Tri(a, i1, i2);
                         Tri tb = new Tri(i1, b, c);
@@ -126,10 +126,10 @@ namespace UbiRock.Wakizashi.Toolkit {
                 else {
                     // TODO: Calculate real normals
                     Vertex i1 = Intersect(plane, a, c);
-                    result.AddNewVertex(i1);
+                    result.AddNewVertex(new Vertex(i1.Position, plane.Normal));
                     // TODO: Calculate real normals
                     Vertex i2 = Intersect(plane, b, c);
-                    result.AddNewVertex(i2);
+                    result.AddNewVertex(new Vertex(i2.Position, plane.Normal));
 
                     Tri ta = new Tri(a, b, i1);
                     Tri tb = new Tri(b, i2, i1);

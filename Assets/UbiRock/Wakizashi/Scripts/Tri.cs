@@ -17,7 +17,9 @@ namespace UbiRock.Wakizashi.Toolkit {
 
         public (Vertex, Vertex, Vertex) GetVertecies() => (_vertA, _vertB, _vertC);
         public (Vector3, Vector3, Vector3) GetPositions() => (_vertA.Position, _vertB.Position, _vertC.Position);
-        public (Vector3, Vector3, Vector3) GetNormals() => (_vertA.Normal, _vertB.Normal, _vertC.Normal);
+        public (Vector3, Vector3, Vector3) GetNormals(bool flip = false) => flip ? GetFlippedNormals() : GetNormals();
+        private (Vector3, Vector3, Vector3) GetNormals() => (_vertA.Normal, _vertB.Normal, _vertC.Normal);
+        private (Vector3, Vector3, Vector3) GetFlippedNormals() => (-_vertA.Normal, -_vertB.Normal, -_vertC.Normal);
 
         public void SetNormals(Vector3 normal) {
             _vertA.Normal = normal;

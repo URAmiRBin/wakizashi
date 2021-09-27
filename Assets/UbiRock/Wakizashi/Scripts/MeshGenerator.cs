@@ -24,7 +24,7 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             for(int i = 0; i < fillTriangles.Count * 3; i += 3) {
                 (vertecies[i + triangles.Count * 3], vertecies[i + 1 + triangles.Count * 3], vertecies[i + 2 + triangles.Count * 3]) = fillTriangles[i / 3].GetPositions();
-                normals[i + triangles.Count * 3] = normals[i + 1 + triangles.Count * 3] = normals[i + 2 + triangles.Count * 3] = isTop ? Vector3.down : Vector3.up;
+                (normals[i + triangles.Count * 3], normals[i + 1 + triangles.Count * 3], normals[i + 2 + triangles.Count * 3]) = fillTriangles[i / 3].GetNormals(isTop);
 
                 int start = isTop ? 2 : 0;
                 int inc = isTop ? -1 : 1;
