@@ -75,7 +75,6 @@ namespace UbiRock.Wakizashi.Toolkit {
             }
 
             Vertex[] veryNewVertices = new Vertex[cc];
-            Debug.Log(cc);
             int j = 0;
             for (int i = 0; i < newVerticesCount; i++) {
                 if (newVertices[i] != null)
