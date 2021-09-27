@@ -108,17 +108,9 @@ namespace UbiRock.Wakizashi.Toolkit {
                     veryNewVertices[hullIndices[veryNewVertices.Length - 1]],
                     veryNewVertices[hullIndices[0]]
                     ));
-            
-            foreach(Tri t in fillTriangles) {
-                t.SetNormals(plane.Normal);
-            }
 
-            Mesh bottomMesh = MeshGenerator.CreateMeshFromTriangles(bottomTriangles, fillTriangles);
-            
-            foreach(Tri t in fillTriangles) {
-                t.FlipNormals();
-            }
-            Mesh topMesh = MeshGenerator.CreateMeshFromTriangles(topTriangles, fillTriangles);
+            Mesh bottomMesh = MeshGenerator.CreateMeshFromTriangles(bottomTriangles, fillTriangles, false);
+            Mesh topMesh = MeshGenerator.CreateMeshFromTriangles(topTriangles, fillTriangles, true);
             
             return new SlicedHull(topMesh, bottomMesh);
         }

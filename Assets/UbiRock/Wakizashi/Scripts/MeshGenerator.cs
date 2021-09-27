@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace UbiRock.Wakizashi.Toolkit {
     public static class MeshGenerator {
-        public static Mesh CreateMeshFromTriangles(List<Tri> triangles, List<Tri> fillTriangles) {
+        public static Mesh CreateMeshFromTriangles(List<Tri> triangles, List<Tri> fillTriangles, bool isTop) {
             Mesh result = new Mesh();
 
             Vector3[] vertecies = new Vector3[triangles.Count * 3 + fillTriangles.Count * 3];
@@ -22,11 +22,13 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             for(int i = 0; i < fillTriangles.Count * 3; i += 3) {
                 (vertecies[i + triangles.Count * 3], vertecies[i + 1 + triangles.Count * 3], vertecies[i + 2 + triangles.Count * 3]) = fillTriangles[i / 3].GetPositions();
-                (normals[i + triangles.Count * 3], normals[i + 1 + triangles.Count * 3], normals[i + 2 + triangles.Count * 3]) = fillTriangles[i / 3].GetNormals();
+                normals[i + triangles.Count * 3] = normals[i + 1 + triangles.Count * 3] = normals[i + 2 + triangles.Count * 3] = isTop ? Vector3.down : Vector3.up;
 
-                indices[i + triangles.Count * 3] = i + triangles.Count * 3;
-                indices[i + triangles.Count * 3 + 1] = i + triangles.Count * 3 + 1;
-                indices[i + triangles.Count * 3 + 2] = i + triangles.Count * 3 + 2;
+                int start = isTop ? 2 : 0;
+                int inc = isTop ? -1 : 1;
+                indices[i + triangles.Count * 3] = i + triangles.Count * 3 + start;
+                indices[i + triangles.Count * 3 + 1] = i + triangles.Count * 3 + start + inc;
+                indices[i + triangles.Count * 3 + 2] = i + triangles.Count * 3 + start + inc + inc;
             }
 
             result.vertices = vertecies;
