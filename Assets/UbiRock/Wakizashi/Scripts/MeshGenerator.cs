@@ -32,6 +32,7 @@ namespace UbiRock.Wakizashi.Toolkit {
             result.vertices = vertecies;
             result.normals = normals;
             result.SetTriangles(indices, 0, false);
+            result.Optimize();
 
             return result;
         }

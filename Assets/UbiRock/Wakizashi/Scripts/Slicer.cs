@@ -42,12 +42,12 @@ namespace UbiRock.Wakizashi.Toolkit {
                     for (int i = 0; i < intersection.BottomTrisCount; i++) {
                         bottomTriangles.Add(intersection.BottomTriangles[i]);
                     }
-                    int j = 0;
+                    int d = 0;
                     for (int i = 0; i < intersection.NewVerticesCount; i++) {
                         newVerticesArray[i + newVerticesCount] = intersection.NewVertices[i];
-                        j++;
+                        d++;
                     }
-                    newVerticesCount += j;
+                    newVerticesCount += d;
                 } else {
                     if (plane.GetPointToPlaneRelation(vertices[a]) == PointToPlaneRelation.TOP ||
                         plane.GetPointToPlaneRelation(vertices[b]) == PointToPlaneRelation.TOP ||
@@ -58,26 +58,56 @@ namespace UbiRock.Wakizashi.Toolkit {
             }
 
             Vertex[] newVertices = new Vertex[newVerticesCount];
-            for (int i = 0; i < newVerticesCount; i++) newVertices[i] = newVerticesArray[i];            
+            for (int i = 0; i < newVerticesCount; i++) newVertices[i] = newVerticesArray[i]; 
+            int cc = newVerticesCount;
+
+            for(int i = 0; i < newVerticesCount; i++) {
+                if (newVertices[i] != null)  {
+                    for(int x = i + 1; x < newVerticesCount; x++) {
+                        if (newVertices[x] != null) {
+                            if (Vector3.Equals(newVertices[i].Position, newVertices[x].Position)) {
+                                newVertices[x] = null;
+                                cc--;
+                            }
+                        }
+                    }
+                }
+            }
+
+            Vertex[] veryNewVertices = new Vertex[cc];
+            Debug.Log(cc);
+            int j = 0;
+            for (int i = 0; i < newVerticesCount; i++) {
+                if (newVertices[i] != null)
+                    veryNewVertices[j++] = newVertices[i];
+            }
+            Vector3 sum = Vector3.zero;
+            for (int i = 0; i < cc; i++) {
+                sum += veryNewVertices[i].Position;
+            }
+
+            sum /= cc;
 
             // TODO: Fill should be an option
 
-            int[] hullIndices = ConvexHull.GetConvexHull(newVertices);
+            int[] hullIndices = ConvexHull.GetConvexHull(veryNewVertices);
             // FIXME: Handle if the count does not create a triangle
-
-            // for(int i = 0; i < hullIndices.Length; i++) {
-            //     Debug.Log(newVertices[hullIndices[i]].Position.x + ", " + newVertices[hullIndices[i]].Position.y + ", " + newVertices[hullIndices[i]].Position.z);
-            // }
 
             // TODO: Add this to triangulator
             // TODO: Account for concave
-            for (int i = 2; i < newVertices.Length; i++) {
+            for (int i = 0; i < veryNewVertices.Length - 1; i++) {
                 fillTriangles.Add(new Tri(
-                    newVertices[hullIndices[0]],
-                    newVertices[hullIndices[i - 1]],
-                    newVertices[hullIndices[i]]
+                    new Vertex(sum),
+                    veryNewVertices[hullIndices[i]],
+                    veryNewVertices[hullIndices[i + 1]]
                     ));
             }
+
+            fillTriangles.Add(new Tri(
+                    new Vertex(sum),
+                    veryNewVertices[hullIndices[veryNewVertices.Length - 1]],
+                    veryNewVertices[hullIndices[0]]
+                    ));
             
             foreach(Tri t in fillTriangles) {
                 t.SetNormals(plane.Normal);
