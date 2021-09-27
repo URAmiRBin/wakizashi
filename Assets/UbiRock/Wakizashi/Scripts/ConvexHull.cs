@@ -31,12 +31,6 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             Array.Sort(clone, (x, y) => (x.position.x < y.position.x) || (x.position.x == y.position.x && x.position.x == xMin && x.position.y < y.position.y) || (x.position.x == y.position.x && x.position.x == xMax && x.position.y > y.position.y)  ? -1 : 1);
 
-            for(int i = 0; i < clone.Length; i++) {
-                Debug.Log(clone[i].position);
-            }
-
-            Debug.Log("=====");
-
             int[] upperHull, lowerHull;
             upperHull = new int[vertices.Length];
             lowerHull = new int[vertices.Length];
@@ -62,11 +56,6 @@ namespace UbiRock.Wakizashi.Toolkit {
             for (int i = lowerHullIndex - 1, j = upperHullIndex; i >= 0; i--) {
                 hullIndices[j++] = lowerIndices[i];
             }
-
-            for(int i = 0; i < clone.Length; i++) {
-                Debug.Log(clone[hullIndices[i]].position);
-            }
-
             return hullIndices;
         }
 
