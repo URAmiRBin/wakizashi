@@ -6,6 +6,8 @@ namespace UbiRock.Wakizashi {
         public GameObject meshToSlice;
         public GameObject plane;
 
+        public Material sliceMaterial;
+
         public void Slice() {
             Vector3 position = plane.transform.position;
             Vector3 direction = plane.transform.up;
@@ -23,8 +25,8 @@ namespace UbiRock.Wakizashi {
             Material material = meshToSlice.GetComponent<MeshRenderer>().material;
             
             SlicedHull result = Slicer.Slice(meshToSlice, p);
-            GameObject topObject = result.CreateTopMesh(meshToSlice.transform, material);
-            GameObject bottomObject = result.CreateBottomMesh(meshToSlice.transform, material);
+            GameObject topObject = result.CreateTopMesh(meshToSlice.transform, material, sliceMaterial);
+            GameObject bottomObject = result.CreateBottomMesh(meshToSlice.transform, material, sliceMaterial);
 
             meshToSlice.SetActive(false);
         }
