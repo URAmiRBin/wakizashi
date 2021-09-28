@@ -108,8 +108,8 @@ namespace UbiRock.Wakizashi.Toolkit {
                     veryNewVertices[hullIndices[0]]
                     ));
 
-            Mesh bottomMesh = MeshGenerator.CreateMeshFromTriangles(bottomTriangles, fillTriangles, false);
-            Mesh topMesh = MeshGenerator.CreateMeshFromTriangles(topTriangles, fillTriangles, true);
+            Mesh bottomMesh = MeshGenerator.CreateMeshFromTriangles(bottomTriangles, null, false);
+            Mesh topMesh = MeshGenerator.CreateMeshFromTriangles(topTriangles, null, true);
             
             return new SlicedHull(topMesh, bottomMesh);
         }
