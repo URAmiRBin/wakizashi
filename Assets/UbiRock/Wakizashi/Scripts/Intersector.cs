@@ -31,10 +31,10 @@ namespace UbiRock.Wakizashi.Toolkit {
                     Vertex i = Intersect(plane, b, c);
                     result.AddNewVertex(new Vertex(i.Position, plane.Normal));
 
-                    Tri tb = new Tri(b, a, i);
-                    Tri tc = new Tri(c, a, i);
+                    Tri tb = rb == PointToPlaneRelation.TOP ? new Tri(a, b, i) : new Tri(a, i, b);
+                    Tri tc = rc == PointToPlaneRelation.TOP ? new Tri(a, c, i) : new Tri(a, i, c);
                     
-                    if (ra == PointToPlaneRelation.TOP) {
+                    if (rb == PointToPlaneRelation.TOP) {
                         result.AddTopTri(tb);
                         result.AddBottomTri(tc);
                     } else {
@@ -47,8 +47,8 @@ namespace UbiRock.Wakizashi.Toolkit {
                     Vertex i = Intersect(plane, a, c);
                     result.AddNewVertex(new Vertex(i.Position, plane.Normal));
 
-                    Tri ta = new Tri(a, b, i);
-                    Tri tc = new Tri(c, b, i);
+                    Tri ta = ra == PointToPlaneRelation.TOP ? new Tri(b, a, i) : new Tri(b, i, a);
+                    Tri tc = rc == PointToPlaneRelation.TOP ? new Tri(b, c, i) : new Tri(b, i, c);
 
                     if (ra == PointToPlaneRelation.TOP) {
                         result.AddTopTri(ta);
@@ -63,8 +63,8 @@ namespace UbiRock.Wakizashi.Toolkit {
                     Vertex i = Intersect(plane, a, b);
                     result.AddNewVertex(new Vertex(i.Position, plane.Normal));
 
-                    Tri ta = new Tri(a, c, i);
-                    Tri tb = new Tri(b, c, i);
+                    Tri ta = ra == PointToPlaneRelation.TOP ? new Tri(c, a, i) : new Tri(c, i, a);
+                    Tri tb = rb == PointToPlaneRelation.TOP ?  new Tri(c, b, i) : new Tri(c, i, b);
 
                     if (ra == PointToPlaneRelation.TOP) {
                         result.AddTopTri(ta);
