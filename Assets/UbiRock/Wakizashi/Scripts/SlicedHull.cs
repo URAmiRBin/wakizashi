@@ -27,7 +27,7 @@ namespace UbiRock.Wakizashi.Toolkit {
             MeshFilter meshFilter = obj.AddComponent<MeshFilter>();
 
             meshFilter.mesh = mesh;
-            meshRenderer.sharedMaterials = new Material[] {material, sliceMaterial};
+            meshRenderer.sharedMaterials = new Material[] {material};
 
             return obj;
         }

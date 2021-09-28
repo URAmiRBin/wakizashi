@@ -20,7 +20,6 @@ namespace UbiRock.Wakizashi.Toolkit {
                 indices[i + 2] = i + 2;
             }
 
-            int[] indicesFill = new int[fillTriangles.Count * 3];
 
             for(int i = 0; i < fillTriangles.Count * 3; i += 3) {
                 (vertecies[i + triangles.Count * 3], vertecies[i + 1 + triangles.Count * 3], vertecies[i + 2 + triangles.Count * 3]) = fillTriangles[i / 3].GetPositions();
@@ -28,16 +27,14 @@ namespace UbiRock.Wakizashi.Toolkit {
 
                 int start = isTop ? 2 : 0;
                 int inc = isTop ? -1 : 1;
-                indicesFill[i] = i + triangles.Count * 3 + start;
-                indicesFill[i + 1] = i + triangles.Count * 3 + start + inc;
-                indicesFill[i + 2] = i + triangles.Count * 3 + start + inc + inc;
+                indices[i + triangles.Count * 3] = i + triangles.Count * 3 + start;
+                indices[i + 1 + triangles.Count * 3] = i + triangles.Count * 3 + start + inc;
+                indices[i + 2 + triangles.Count * 3] = i + triangles.Count * 3 + start + inc + inc;
             }
 
             result.vertices = vertecies;
             result.normals = normals;
-            result.subMeshCount = 2;
             result.SetTriangles(indices, 0, false);
-            result.SetTriangles(indicesFill, 1, false);
 
             // WRITE ABOOT THIS
             result.Optimize();
