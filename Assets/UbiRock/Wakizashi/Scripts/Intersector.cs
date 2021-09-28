@@ -11,8 +11,9 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             float t = (pDistance - Vector3.Dot(pNormal, a.Position)) / Vector3.Dot(pNormal, line);
             Vector3 normal = Vector3.Normalize(a.Normal * (1 - t) + b.Normal * t);
+            Vector2 uv = a.UV * (1 - t) + b.UV * t;
 
-            if (t >= -Constants.EPSILON && t <= 1 + Constants.EPSILON) return new Vertex(Vector3.Lerp(a.Position, b.Position, t), normal);
+            if (t >= -Constants.EPSILON && t <= 1 + Constants.EPSILON) return new Vertex(Vector3.Lerp(a.Position, b.Position, t), uv, normal);
             else throw new System.InvalidOperationException("The given line and plane does not have an intersection");
         }
 

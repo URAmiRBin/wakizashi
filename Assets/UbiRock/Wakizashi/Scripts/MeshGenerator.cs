@@ -12,11 +12,13 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             Vector3[] vertecies = new Vector3[vertexCount];
             Vector3[] normals = new Vector3[vertexCount];
+            Vector2[] uvs = new Vector2[vertexCount];
             int[] indices = new int[vertexCount];
 
             for(int i = 0; i < triangles.Count * 3; i += 3) {
                 (vertecies[i], vertecies[i + 1], vertecies[i + 2]) = triangles[i / 3].GetPositions();
                 (normals[i], normals[i + 1], normals[i + 2]) = triangles[i / 3].GetNormals();
+                (uvs[i], uvs[i + 1], uvs[i + 2]) = triangles[i / 3].GetUVs();
 
 
                 indices[i] = i;
@@ -39,6 +41,7 @@ namespace UbiRock.Wakizashi.Toolkit {
                 for(int i = 0; i < triangles.Count * 3; i += 3) {
                     (vertecies[i + triangles.Count * 3], vertecies[i + 1 + triangles.Count * 3], vertecies[i + 2 + triangles.Count * 3]) = triangles[i / 3].GetPositions();
                     (normals[i + triangles.Count * 3], normals[i + 1 + triangles.Count * 3], normals[i + 2 + triangles.Count * 3]) = triangles[i / 3].GetNormals(true);
+                    (uvs[i + triangles.Count * 3], uvs[i + 1 + triangles.Count * 3], uvs[i + 2 + triangles.Count * 3]) = triangles[i / 3].GetUVs();
 
 
                     indices[i + triangles.Count * 3] = i + 2 + triangles.Count * 3;
@@ -50,6 +53,7 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             result.vertices = vertecies;
             result.normals = normals;
+            result.uv = uvs;
             result.SetTriangles(indices, 0, false);
 
             // WRITE ABOOT THIS
