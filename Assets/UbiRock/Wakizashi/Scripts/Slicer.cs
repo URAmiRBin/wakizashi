@@ -45,7 +45,11 @@ namespace UbiRock.Wakizashi.Toolkit {
                     }
                     int d = 0;
                     for (int i = 0; i < intersection.NewVerticesCount; i++) {
-                        newVerticesArray[i + newVerticesCount] = intersection.NewVertices[i];
+                        Vector3 xxx = intersection.NewVertices[i].Position;
+                        Vector3 nu = Vector3.Normalize(Vector3.Cross(plane.Normal, Vector3.forward));
+                        Vector3 nv = Vector3.Cross(nu, plane.Normal);
+                        Vector2 newUV = new Vector2(Vector3.Dot(xxx, nu) + .5f, Vector3.Dot(xxx, nv) + .5f);
+                        newVerticesArray[i + newVerticesCount] = new Vertex(intersection.NewVertices[i].Position, newUV, intersection.NewVertices[i].Normal);
                         d++;
                     }
                     newVerticesCount += d;
@@ -88,6 +92,11 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             sum /= cc;
 
+            Vector3 u = Vector3.Normalize(Vector3.Cross(plane.Normal, Vector3.forward));
+            Vector3 v = Vector3.Cross(u, plane.Normal);
+            Vector2 xx = new Vector2(Vector3.Dot(sum, u) + .5f, Vector3.Dot(sum, v) + .5f);
+
+
             // TODO: Fill should be an option
 
             int[] hullIndices = ConvexHull.GetConvexHull(veryNewVertices, plane.Normal);
@@ -97,20 +106,20 @@ namespace UbiRock.Wakizashi.Toolkit {
             // TODO: Account for concave
             for (int i = 0; i < veryNewVertices.Length - 1; i++) {
                 fillTriangles.Add(new Tri(
-                    new Vertex(sum, plane.Normal),
+                    new Vertex(sum, xx, plane.Normal),
                     veryNewVertices[hullIndices[i]],
                     veryNewVertices[hullIndices[i + 1]]
                     ));
             }
 
             fillTriangles.Add(new Tri(
-                    new Vertex(sum, plane.Normal),
+                    new Vertex(sum, xx, plane.Normal),
                     veryNewVertices[hullIndices[veryNewVertices.Length - 1]],
                     veryNewVertices[hullIndices[0]]
                     ));
 
-            Mesh bottomMesh = MeshGenerator.CreateMeshFromTriangles(bottomTriangles, null, false);
-            Mesh topMesh = MeshGenerator.CreateMeshFromTriangles(topTriangles, null, true);
+            Mesh bottomMesh = MeshGenerator.CreateMeshFromTriangles(bottomTriangles, fillTriangles, false);
+            Mesh topMesh = MeshGenerator.CreateMeshFromTriangles(topTriangles, fillTriangles, true);
             
             return new SlicedHull(topMesh, bottomMesh);
         }
