@@ -57,7 +57,7 @@ public class OverlapBoxExample : MonoBehaviour
             _indicatorPool[1].transform.position = f;
             _indicatorPool[1].SetActive(true);
             width = Vector3.Distance(s, f);
-            r = Vector3.Angle(Vector3.right, s - f);
+            r = Vector3.SignedAngle(Vector3.right, s - f, transform.forward);
             MyCollisions();
         }
     }
@@ -82,7 +82,10 @@ public class OverlapBoxExample : MonoBehaviour
             pos2 = Camera.main.ScreenToWorldPoint(pos2);
 
             plani.transform.position = s + transform.forward * (go.transform.position.z - go.transform.lossyScale.z / 2f - transform.position.z);
-            plani.transform.rotation = Quaternion.Euler(0f, 0f, 180f - r);
+            Debug.Log(r);
+            if (r < -90) plani.transform.rotation = Quaternion.Euler(0f, 0f, 180f + r);
+            else if (r > 90) plani.transform.rotation = Quaternion.Euler(0f, 0f, r - 180f);
+            else plani.transform.rotation = Quaternion.Euler(0f, 0f, r);
 
             Vector3 normal = Vector3.Cross(pos1 - pos2, transform.forward);
             UbiRock.Wakizashi.Toolkit.Plane p = new UbiRock.Wakizashi.Toolkit.Plane(s, normal);
