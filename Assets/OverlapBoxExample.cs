@@ -81,7 +81,7 @@ public class OverlapBoxExample : MonoBehaviour
             pos2.z = go.transform.position.z - transform.position.z;
             pos2 = Camera.main.ScreenToWorldPoint(pos2);
 
-            plani.transform.position = s + transform.forward * (go.transform.position.z - go.transform.lossyScale.z / 2f - transform.position.z);
+            plani.transform.position = new Vector3(s.x, s.y - (transform.position.y - go.transform.position.y), -6f);
             Debug.Log(r);
             if (r < -90) plani.transform.rotation = Quaternion.Euler(0f, 0f, 180f + r);
             else if (r > 90) plani.transform.rotation = Quaternion.Euler(0f, 0f, r - 180f);
