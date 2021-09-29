@@ -4,6 +4,8 @@ namespace UbiRock.Wakizashi.Toolkit {
     public class SlicedHull {
         private Mesh _topMesh, _bottomMesh;
 
+        public static Vector3 normal;
+
         public SlicedHull(Mesh topMesh, Mesh bottomMesh) {
             _topMesh = topMesh;
             _bottomMesh = bottomMesh;
@@ -25,6 +27,11 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             MeshRenderer meshRenderer = obj.AddComponent<MeshRenderer>();
             MeshFilter meshFilter = obj.AddComponent<MeshFilter>();
+            obj.AddComponent<Rigidbody>().AddExplosionForce(Random.Range(5f, 10f), transform.position, 0f, -normal.y, ForceMode.VelocityChange);
+            MeshCollider collider = obj.AddComponent<MeshCollider>();
+            collider.sharedMesh = mesh;
+            collider.convex = true;
+            
 
             meshFilter.mesh = mesh;
             meshRenderer.sharedMaterials = new Material[] {material};
