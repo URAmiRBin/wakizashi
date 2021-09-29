@@ -9,15 +9,12 @@ namespace UbiRock.Wakizashi {
         public Material sliceMaterial;
 
         public void Slice() {
-            Vector3 position = plane.transform.position;
-            Vector3 direction = plane.transform.up;
-
             Matrix4x4 mat = meshToSlice.transform.worldToLocalMatrix;
             Matrix4x4 transpose = mat.transpose;
             Matrix4x4 inv = transpose.inverse;
 
-            Vector3 refUp = inv.MultiplyVector(direction).normalized;
-            Vector3 refPt = meshToSlice.transform.InverseTransformPoint(position);
+            Vector3 refUp = inv.MultiplyVector(plane.transform.up).normalized;
+            Vector3 refPt = meshToSlice.transform.InverseTransformPoint(plane.transform.position);
 
 
             Toolkit.Plane p = new Toolkit.Plane(refPt, refUp);
