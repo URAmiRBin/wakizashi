@@ -22,6 +22,11 @@ namespace UbiRock.Wakizashi.Toolkit {
             if (area > 0) return 1;
             return 0;
         }
+        public static bool IsAbout(float x, float y) {
+            if (x <= y + 0.0001f && x >= y - 0.0001f) return true;
+            return false;
+        }
+
         static int upperHullIndex, lowerHullIndex;
         static Map[] clone;
         public static int[] SeperateHulls(Vertex[] vertices, Vector3 normal) {
@@ -33,25 +38,34 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             for(int i = 0; i < clone.Length; i++) clone[i] = new Map(new Vector2(Vector3.Dot(vertices[i].Position, u), Vector3.Dot(vertices[i].Position, v)), i);
 
-            int lowestYIndex = -1;
+            int lowestXYIndex = 0;
             float lowestYValue = clone[0].position.y;
+            float lowestXValue = clone[0].position.x;
 
             for(int i = 0; i < clone.Length; i++) {
-                if (clone[i].position.y < lowestYValue) {
-                    lowestYIndex = i;
-                    lowestYValue = clone[i].position.y;
+                if (clone[i].position.y <= lowestYValue) {
+                    if (clone[i].position.y == lowestYValue && clone[i].position.x >= lowestXValue) continue;
+                    if (clone[i].position.y == lowestYValue && clone[i].position.x < lowestXValue) {
+                        lowestXYIndex = i;
+                        lowestYValue = clone[i].position.y;
+                        lowestXValue = clone[i].position.x;
+                    } else {
+                        lowestXYIndex = i;
+                        lowestYValue = clone[i].position.y;
+                        lowestXValue = clone[i].position.x;
+                    }
                 }
             }
 
 
             for (int i = 0; i < clone.Length; i++) {
-                if (i == lowestYIndex) clone[i].degree = -1;
+                if (i == lowestXYIndex) clone[i].degree = 181;
                 else {
-                    clone[i].degree = Vector2.Angle(clone[i].position - clone[lowestYIndex].position, Vector2.right);
+                    clone[i].degree = Vector2.Angle(clone[i].position - clone[lowestXYIndex].position, Vector2.right);
                 }
             }
 
-            Array.Sort(clone, (x, y) => (x.degree < y.degree) || (x.degree == y.degree && y.degree == 180 && x.position.x < y.position.x) || (x.degree == y.degree && y.degree > 90 && x.position.y > y.position.y) || (x.degree == y.degree && y.degree <= 90 && x.position.y < y.position.y) ? -1 : 1);
+            Array.Sort(clone, (x, y) => (x.degree > y.degree) || (IsAbout(x.degree, y.degree) && x.degree >= 90 && x.position.y < y.position.y) || (IsAbout(x.degree, y.degree) && x.degree < 90 && x.position.x > y.position.x) ? -1 : 1);
 
 
             for(int i = 0; i < clone.Length; i++) Debug.Log(clone[i].position + " = " + clone[i].degree);
@@ -73,7 +87,7 @@ namespace UbiRock.Wakizashi.Toolkit {
 
 
             int[] hull = new int[clone.Length];
-            for(int i = 0; i < hull.Length; i++) {
+            for(int i = hull.Length - 1; i >= 0; i--) {
                 hull[i] = stack.Pop().index;
             }
 
