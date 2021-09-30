@@ -31,7 +31,7 @@ namespace UbiRock.Wakizashi.Toolkit {
             MeshCollider collider = obj.AddComponent<MeshCollider>();
             collider.sharedMesh = mesh;
             collider.convex = true;
-            
+            obj.layer = 6;
 
             meshFilter.mesh = mesh;
             meshRenderer.sharedMaterials = new Material[] {material};

@@ -99,7 +99,7 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             // TODO: Fill should be an option
 
-            int[] hullIndices = ConvexHull.GetConvexHull(veryNewVertices, plane.Normal);
+            int[] hullIndices = ConvexHull.SeperateHulls(veryNewVertices, plane.Normal);
             // FIXME: Handle if the count does not create a triangle
 
             // TODO: Add this to triangulator
