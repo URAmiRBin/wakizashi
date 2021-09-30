@@ -75,13 +75,13 @@ public class OverlapBoxExample : MonoBehaviour
 
         foreach(GameObject go in hits) {
             Vector3 pos1 = firstMouse;
-            pos1.z = go.transform.position.z - transform.position.z;
+            pos1.z = Vector3.Distance(transform.position, go.transform.position);
             pos1 = Camera.main.ScreenToWorldPoint(pos1);
             Vector3 pos2 = firstMouse;
-            pos2.z = go.transform.position.z - transform.position.z;
+            pos2.z = Vector3.Distance(transform.position, go.transform.position);
             pos2 = Camera.main.ScreenToWorldPoint(pos2);
 
-            plani.transform.position = new Vector3(s.x, s.y - (transform.position.y - go.transform.position.y), -6f);
+            plani.transform.position = new Vector3(pos1.x, pos2.y, pos2.z);
             Debug.Log(r);
             if (r < -90) plani.transform.rotation = Quaternion.Euler(0f, 0f, 180f + r);
             else if (r > 90) plani.transform.rotation = Quaternion.Euler(0f, 0f, r - 180f);
