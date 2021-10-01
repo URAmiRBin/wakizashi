@@ -82,13 +82,14 @@ public class OverlapBoxExample : MonoBehaviour
             pos2 = Camera.main.ScreenToWorldPoint(pos2);
 
             plani.transform.position = new Vector3(pos1.x, pos2.y, pos2.z);
-            Debug.Log(r);
-            if (r < -90) plani.transform.rotation = Quaternion.Euler(0f, 0f, 180f + r);
-            else if (r > 90) plani.transform.rotation = Quaternion.Euler(0f, 0f, r - 180f);
-            else plani.transform.rotation = Quaternion.Euler(0f, 0f, r);
+            float f = transform.rotation.eulerAngles.x;
+            if (r < -90) plani.transform.rotation = Quaternion.Euler(f, 0f, 180f + r);
+            else if (r > 90) plani.transform.rotation = Quaternion.Euler(f, 0f, r - 180f);
+            else plani.transform.rotation = Quaternion.Euler(f, 0f, r);
 
-            Vector3 normal = Vector3.Cross(pos1 - pos2, transform.forward);
-            UbiRock.Wakizashi.Toolkit.Plane p = new UbiRock.Wakizashi.Toolkit.Plane(s, normal);
+            Vector3 normal = Vector3.Cross(pos1 - pos2, transform.up);
+            Debug.Log(normal);
+            UbiRock.Wakizashi.Toolkit.Plane p = new UbiRock.Wakizashi.Toolkit.Plane(s, Vector3.zero);
             slicer.meshToSlice = go;
             slicer.plane = plani;
             slicer.Slice();
