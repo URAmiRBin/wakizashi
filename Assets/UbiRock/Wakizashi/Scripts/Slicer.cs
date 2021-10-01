@@ -104,18 +104,18 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             // TODO: Add this to triangulator
             // TODO: Account for concave
-            for (int i = 0; i < veryNewVertices.Length - 1; i++) {
+            for (int i = 0; i < hullIndices.Length - 1; i++) {
                 fillTriangles.Add(new Tri(
                     new Vertex(sum, xx, plane.Normal),
-                    veryNewVertices[hullIndices[i]],
-                    veryNewVertices[hullIndices[i + 1]]
+                    veryNewVertices[hullIndices[i + 1]],
+                    veryNewVertices[hullIndices[i]]
                     ));
             }
 
             fillTriangles.Add(new Tri(
                     new Vertex(sum, xx, plane.Normal),
-                    veryNewVertices[hullIndices[veryNewVertices.Length - 1]],
-                    veryNewVertices[hullIndices[0]]
+                    veryNewVertices[hullIndices[0]],
+                    veryNewVertices[hullIndices[hullIndices.Length - 1]]
                     ));
 
             Mesh bottomMesh = MeshGenerator.CreateMeshFromTriangles(bottomTriangles, fillTriangles, false);

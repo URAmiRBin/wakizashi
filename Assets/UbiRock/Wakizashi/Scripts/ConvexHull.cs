@@ -23,7 +23,7 @@ namespace UbiRock.Wakizashi.Toolkit {
             return 0;
         }
         public static bool IsAbout(float x, float y) {
-            if (x <= y + 0.0001f && x >= y - 0.0001f) return true;
+            if (x <= y + 0.000001f && x >= y - 0.000001f) return true;
             return false;
         }
 
@@ -65,33 +65,37 @@ namespace UbiRock.Wakizashi.Toolkit {
                 }
             }
 
-            Array.Sort(clone, (x, y) => (x.degree > y.degree) || (IsAbout(x.degree, y.degree) && x.degree >= 90 && x.position.y < y.position.y) || (IsAbout(x.degree, y.degree) && x.degree < 90 && x.position.x > y.position.x) ? -1 : 1);
+            Array.Sort(clone, (x, y) => (x.degree > y.degree) || (IsAbout(x.degree, y.degree) && x.degree >= 89 && x.position.y < y.position.y) || (IsAbout(x.degree, y.degree) && x.degree < 89 && x.position.x > y.position.x) ? -1 : 1);
 
 
             for(int i = 0; i < clone.Length; i++) Debug.Log(clone[i].position + " = " + clone[i].degree);
+            Debug.Log("=========");
 
-            // stack.Push(clone[0]);
-            // stack.Push(clone[1]);
+            stack.Push(clone[0]);
+            stack.Push(clone[1]);
 
-            for(int i = 0; i < clone.Length; i++) stack.Push(clone[i]);
+            // for(int i = 0; i < clone.Length; i++) stack.Push(clone[i]);
 
-            // for (int i = 2; i < clone.Length; i++) {
-            //     var p = stack.Pop();
-            //     // var p1 = stack.Peek();
-            //     while (stack.Count != 0 && CCW(stack.Peek().position, p.position, clone[i].position) < 0) {
-            //         p = stack.Pop();
-            //     }
-            //     stack.Push(p);
-            //     stack.Push(clone[i]);
-            // }
-
-
-            int[] hull = new int[clone.Length];
-            for(int i = hull.Length - 1; i >= 0; i--) {
-                hull[i] = stack.Pop().index;
+            for (int i = 2; i < clone.Length; i++) {
+                var p = stack.Pop();
+                // var p1 = stack.Peek();
+                while (stack.Count != 0 && CCW(stack.Peek().position, p.position, clone[i].position) > 0) {
+                    p = stack.Pop();
+                }
+                stack.Push(p);
+                stack.Push(clone[i]);
             }
 
 
+            int[] hull = new int[stack.Count];
+            // for(int i = hull.Length - 1; i >= 0; i--) {
+            //     Debug.Log(stack.Peek().position);
+            //     hull[i] = stack.Pop().index;
+            // }
+            int x = 0;
+            while(stack.Count != 0) {
+                hull[x++] = stack.Pop().index;
+            }
             return hull;
         }
     }
