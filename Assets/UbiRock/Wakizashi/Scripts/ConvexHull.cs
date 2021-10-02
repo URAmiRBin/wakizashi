@@ -27,6 +27,19 @@ namespace UbiRock.Wakizashi.Toolkit {
             return false;
         }
 
+        public static int Compare(Vector2 p1, Vector2 p2) {
+            int ccw = CCW(minP, p1, p2);
+            if (ccw == 0) {
+                if (Vector2.Distance(minP, p2) > Vector2.Distance(minP, p1)) return -1;
+                else return 1;
+            } else {
+                if (ccw == 1) return -1;
+                else return 1;
+            }
+        }
+
+        static Vector2 minP;
+
         static int upperHullIndex, lowerHullIndex;
         static Map[] clone;
         public static int[] SeperateHulls(Vertex[] vertices, Vector3 normal) {
@@ -57,29 +70,38 @@ namespace UbiRock.Wakizashi.Toolkit {
                 }
             }
 
+            minP = clone[lowestXYIndex].position;
+
 
             for (int i = 0; i < clone.Length; i++) {
                 if (i == lowestXYIndex) clone[i].degree = 181;
+                else if (clone[i].position == clone[lowestXYIndex].position) clone[i].degree = 180.5f;
                 else {
-                    clone[i].degree = Vector2.Angle(clone[i].position - clone[lowestXYIndex].position, Vector2.right);
+                    clone[i].degree = Vector2.Angle(clone[i].position - new Vector2(lowestXValue, lowestYValue), Vector2.right);
                 }
             }
 
-            Array.Sort(clone, (x, y) => (x.degree > y.degree) || (IsAbout(x.degree, y.degree) && x.degree >= 89.9 && x.position.y < y.position.y) || (IsAbout(x.degree, y.degree) && x.degree < 89.9 && x.position.x > y.position.x) ? -1 : 1);
+            // Array.Sort(clone, (x, y) => (x.degree > y.degree + 0.1f) || ( IsAbout(x.degree, y.degree) && Vector2.Distance(x.position, new Vector2(lowestXValue, lowestYValue)) <= Vector2.Distance(y.position, new Vector2(lowestXValue, lowestYValue)) + 0.001f && Vector2.Distance(x.position, new Vector2(lowestXValue, lowestYValue)) >= float.Epsilon )  ? -1 : 1);
+            Array.Sort(clone, (x, y) => Compare(x.position, y.position));
 
+            for(int i = 0; i < clone.Length; i++) Debug.Log(clone[i].position + " = " + clone[i].degree + " = " + Vector2.Distance(clone[i].position, new Vector2(lowestXValue, lowestYValue)));
+            Debug.Log("=========");
 
-            // for(int i = 0; i < clone.Length; i++) Debug.Log(clone[i].position + " = " + clone[i].degree);
-            // Debug.Log("=========");
 
             stack.Push(clone[0]);
             stack.Push(clone[1]);
 
-            // for(int i = 0; i < clone.Length; i++) stack.Push(clone[i]);
+            // stack.Push(clone[lowestXYIndex]);
+
+            // for(int i = 0; i < clone.Length; i++) {
+                // if (i == lowestXYIndex) continue;
+                // stack.Push(clone[i]);
+            // }
 
             for (int i = 2; i < clone.Length; i++) {
                 var p = stack.Pop();
                 // var p1 = stack.Peek();
-                while (stack.Count != 0 && CCW(stack.Peek().position, p.position, clone[i].position) >= 0) {
+                while (stack.Count != 0 && CCW(stack.Peek().position, p.position, clone[i].position) <= 0) {
                     p = stack.Pop();
                 }
                 stack.Push(p);
@@ -94,6 +116,7 @@ namespace UbiRock.Wakizashi.Toolkit {
             // }
             int x = 0;
             while(stack.Count != 0) {
+                Debug.Log(stack.Peek().position);
                 hull[x++] = stack.Pop().index;
             }
             return hull;

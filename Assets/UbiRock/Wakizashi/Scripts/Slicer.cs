@@ -107,15 +107,15 @@ namespace UbiRock.Wakizashi.Toolkit {
             for (int i = 0; i < hullIndices.Length - 1; i++) {
                 fillTriangles.Add(new Tri(
                     new Vertex(sum, xx, plane.Normal),
-                    veryNewVertices[hullIndices[i + 1]],
-                    veryNewVertices[hullIndices[i]]
+                    veryNewVertices[hullIndices[i]],
+                    veryNewVertices[hullIndices[i + 1]]
                     ));
             }
 
             fillTriangles.Add(new Tri(
                     new Vertex(sum, xx, plane.Normal),
-                    veryNewVertices[hullIndices[0]],
-                    veryNewVertices[hullIndices[hullIndices.Length - 1]]
+                    veryNewVertices[hullIndices[hullIndices.Length - 1]],
+                    veryNewVertices[hullIndices[0]]
                     ));
 
             Mesh bottomMesh = MeshGenerator.CreateMeshFromTriangles(bottomTriangles, fillTriangles, false);
