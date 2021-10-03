@@ -10,7 +10,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UbiRock.Wakizashi;
 
-public class OverlapBoxExample : MonoBehaviour
+public class DoubleClickPlanePlacer : MonoBehaviour
 {
     bool m_Started;
     public LayerMask m_LayerMask;
@@ -40,7 +40,7 @@ public class OverlapBoxExample : MonoBehaviour
 
     float width, r;
 
-    void FixedUpdate()
+    void Update()
     {
         if (Input.GetMouseButtonDown(0) && !clickOne && !clickTwo) {
             clickOne = true;

@@ -269,7 +269,7 @@ GameObject:
   - component: {fileID: 697196297}
   - component: {fileID: 697196296}
   m_Layer: 0
-  m_Name: Plane (1)
+  m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -553,7 +553,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74e2b48b7def48440b52d74a52999596, type: 3}
+  m_Script: {fileID: 11500000, guid: eb5c22ac1507437448c388652817d0a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_LayerMask:
@@ -815,7 +815,7 @@ GameObject:
   - component: {fileID: 1702300363}
   - component: {fileID: 1702300362}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Slicer Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -911,7 +911,7 @@ GameObject:
   - component: {fileID: 1926140300}
   - component: {fileID: 1926140299}
   m_Layer: 6
-  m_Name: Cube (1)
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
