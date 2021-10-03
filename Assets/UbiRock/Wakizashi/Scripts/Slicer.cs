@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
+
 namespace UbiRock.Wakizashi.Toolkit {
     public static class Slicer {
         public static SlicedHull Slice(GameObject gameObject, Plane plane) {
@@ -19,7 +19,7 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             int[] indices = mesh.GetTriangles(0);
             int indicesCount = indices.Length;
-            Vertex[] newVerticesArray = new Vertex[indicesCount * 2];
+            Vertex[] newVertices = new Vertex[indicesCount * 2];
             int newVerticesCount = 0;
 
             List<Tri> topTriangles, bottomTriangles, fillTriangles;
@@ -43,16 +43,10 @@ namespace UbiRock.Wakizashi.Toolkit {
                     for (int i = 0; i < intersection.BottomTrisCount; i++) {
                         bottomTriangles.Add(intersection.BottomTriangles[i]);
                     }
-                    int d = 0;
                     for (int i = 0; i < intersection.NewVerticesCount; i++) {
-                        Vector3 xxx = intersection.NewVertices[i].Position;
-                        Vector3 nu = Vector3.Normalize(Vector3.Cross(plane.Normal, Vector3.forward));
-                        Vector3 nv = Vector3.Cross(nu, plane.Normal);
-                        Vector2 newUV = new Vector2(Vector3.Dot(xxx, nu) + .5f, Vector3.Dot(xxx, nv) + .5f);
-                        newVerticesArray[i + newVerticesCount] = new Vertex(intersection.NewVertices[i].Position, newUV, intersection.NewVertices[i].Normal);
-                        d++;
+                        newVertices[i + newVerticesCount] = intersection.NewVertices[i];
                     }
-                    newVerticesCount += d;
+                    newVerticesCount += intersection.NewVerticesCount;
                 } else {
                     if (plane.GetPointToPlaneRelation(vertices[a]) == PointToPlaneRelation.TOP ||
                         plane.GetPointToPlaneRelation(vertices[b]) == PointToPlaneRelation.TOP ||
@@ -62,60 +56,32 @@ namespace UbiRock.Wakizashi.Toolkit {
                 }
             }
 
-            Vertex[] newVertices = new Vertex[newVerticesCount];
-            for (int i = 0; i < newVerticesCount; i++) newVertices[i] = newVerticesArray[i]; 
-            int cc = newVerticesCount;
+            newVertices = ArrayHelper.SliceTo<Vertex>(newVertices, newVerticesCount);
 
-            for(int i = 0; i < newVerticesCount; i++) {
-                if (newVertices[i] != null)  {
-                    for(int x = i + 1; x < newVerticesCount; x++) {
-                        if (newVertices[x] != null) {
-                            if (Vector3.Equals(newVertices[i].Position, newVertices[x].Position)) {
-                                newVertices[x] = null;
-                                cc--;
-                            }
-                        }
-                    }
-                }
-            }
-
-            Vertex[] veryNewVertices = new Vertex[cc];
-            int j = 0;
-            for (int i = 0; i < newVerticesCount; i++) {
-                if (newVertices[i] != null)
-                    veryNewVertices[j++] = newVertices[i];
-            }
-            Vector3 sum = Vector3.zero;
-            for (int i = 0; i < cc; i++) {
-                sum += veryNewVertices[i].Position;
-            }
-
-            sum /= cc;
-
-            Vector3 u = Vector3.Normalize(Vector3.Cross(plane.Normal, Vector3.forward));
-            Vector3 v = Vector3.Cross(u, plane.Normal);
-            Vector2 xx = new Vector2(Vector3.Dot(sum, u) + .5f, Vector3.Dot(sum, v) + .5f);
-
+            
+            Vertex fanMiddleVertex = MathHelper.Average(newVertices);
+            fanMiddleVertex.Normal = plane.Normal;
+            fanMiddleVertex.UV = MathHelper.Project(fanMiddleVertex.Position, plane.Normal, Vector2.one * .5f);
 
             // TODO: Fill should be an option
 
-            int[] hullIndices = ConvexHull.SeperateHulls(veryNewVertices, plane.Normal);
+            int[] hullIndices = ConvexHull.CalculateConvexHull(newVertices, plane.Normal);
             // FIXME: Handle if the count does not create a triangle
 
             // TODO: Add this to triangulator
             // TODO: Account for concave
             for (int i = 0; i < hullIndices.Length - 1; i++) {
                 fillTriangles.Add(new Tri(
-                    new Vertex(sum, xx, plane.Normal),
-                    veryNewVertices[hullIndices[i]],
-                    veryNewVertices[hullIndices[i + 1]]
+                    fanMiddleVertex,
+                    newVertices[hullIndices[i]],
+                    newVertices[hullIndices[i + 1]]
                     ));
             }
 
             fillTriangles.Add(new Tri(
-                    new Vertex(sum, xx, plane.Normal),
-                    veryNewVertices[hullIndices[hullIndices.Length - 1]],
-                    veryNewVertices[hullIndices[0]]
+                    fanMiddleVertex,
+                    newVertices[hullIndices[hullIndices.Length - 1]],
+                    newVertices[hullIndices[0]]
                     ));
 
             Mesh bottomMesh = MeshGenerator.CreateMeshFromTriangles(bottomTriangles, fillTriangles, false);
