@@ -1,4 +1,5 @@
 using UnityEngine;
+using UbiRock.Utils;
 
 namespace UbiRock.Wakizashi.Toolkit {
     public class SlicedHull {
@@ -27,7 +28,7 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             MeshRenderer meshRenderer = obj.AddComponent<MeshRenderer>();
             MeshFilter meshFilter = obj.AddComponent<MeshFilter>();
-            obj.AddComponent<Rigidbody>().AddExplosionForce(Random.Range(5f, 10f), transform.position, 0f, -normal.y, ForceMode.VelocityChange);
+            Tweener.Instance.MoveAlong(obj.transform, normal, .5f, .4f, EaseType.CircInOut);
             MeshCollider collider = obj.AddComponent<MeshCollider>();
             collider.sharedMesh = mesh;
             collider.convex = true;
