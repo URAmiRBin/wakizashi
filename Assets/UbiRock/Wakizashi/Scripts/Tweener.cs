@@ -23,7 +23,7 @@ namespace UbiRock.Utils {
                 t += Time.deltaTime;
                 yield return null;
             }
-            callback();
+            if (callback != null) callback();
         }
 
         public void MoveAlong(Transform transform, Vector3 direction, float duration = 1, float amount = 1, EaseType type = EaseType.Linear, Action callback = null) {
