@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace UbiRock.Utils {
         }
         
 
-        public static IEnumerator MoveAlongCoroutine(Transform transform, Vector3 direction, float duration = 1, float amount = 1, EaseType type = EaseType.Linear) {
+        public static IEnumerator MoveAlongCoroutine(Transform transform, Vector3 direction, float duration = 1, float amount = 1, EaseType type = EaseType.Linear, Action callback = null) {
             direction = direction.normalized;
             Vector3 originalPosition = transform.position;
             float t = 0;
@@ -22,10 +23,11 @@ namespace UbiRock.Utils {
                 t += Time.deltaTime;
                 yield return null;
             }
+            callback();
         }
 
-        public void MoveAlong(Transform transform, Vector3 direction, float duration = 1, float amount = 1, EaseType type = EaseType.Linear) {
-            StartCoroutine(MoveAlongCoroutine(transform, direction, duration, amount, type));
+        public void MoveAlong(Transform transform, Vector3 direction, float duration = 1, float amount = 1, EaseType type = EaseType.Linear, Action callback = null) {
+            StartCoroutine(MoveAlongCoroutine(transform, direction, duration, amount, type, callback));
         }
     }
 }

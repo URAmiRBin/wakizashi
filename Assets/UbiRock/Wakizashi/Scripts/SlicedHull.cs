@@ -28,7 +28,7 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             MeshRenderer meshRenderer = obj.AddComponent<MeshRenderer>();
             MeshFilter meshFilter = obj.AddComponent<MeshFilter>();
-            Tweener.Instance.MoveAlong(obj.transform, normal, .5f, .4f, EaseType.CircInOut);
+            Tweener.Instance.MoveAlong(obj.transform, normal, .5f, .4f, EaseType.CircInOut, () => obj.AddComponent<Rigidbody>());
             MeshCollider collider = obj.AddComponent<MeshCollider>();
             collider.sharedMesh = mesh;
             collider.convex = true;
