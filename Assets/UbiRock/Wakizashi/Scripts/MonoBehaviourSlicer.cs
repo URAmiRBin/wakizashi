@@ -4,17 +4,20 @@ using UbiRock.Wakizashi.Toolkit;
 namespace UbiRock.Wakizashi {
     public class MonoBehaviourSlicer : MonoBehaviour {
         public GameObject meshToSlice;
-        public GameObject plane;
-
+        Toolkit.Plane _plane;
         public Material sliceMaterial;
+
+        public void SetSlicePlane(Toolkit.Plane plane) => _plane = plane;
+
+        public void SetMeshToSlice(GameObject m) => meshToSlice = m;
 
         public void Slice() {
             Matrix4x4 mat = meshToSlice.transform.worldToLocalMatrix;
             Matrix4x4 transpose = mat.transpose;
             Matrix4x4 inv = transpose.inverse;
 
-            Vector3 refUp = inv.MultiplyVector(plane.transform.up).normalized;
-            Vector3 refPt = meshToSlice.transform.InverseTransformPoint(plane.transform.position);
+            Vector3 refUp = inv.MultiplyVector(_plane.Normal).normalized;
+            Vector3 refPt = meshToSlice.transform.InverseTransformPoint(meshToSlice.transform.position);
 
 
             Toolkit.Plane p = new Toolkit.Plane(refPt, refUp);
