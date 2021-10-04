@@ -17,7 +17,7 @@ namespace UbiRock.Wakizashi {
             Matrix4x4 inv = transpose.inverse;
 
             Vector3 refUp = inv.MultiplyVector(_plane.Normal).normalized;
-            Vector3 refPt = meshToSlice.transform.InverseTransformPoint(meshToSlice.transform.position);
+            Vector3 refPt = meshToSlice.transform.InverseTransformPoint(_plane.Position);
 
 
             Toolkit.Plane p = new Toolkit.Plane(refPt, refUp);
