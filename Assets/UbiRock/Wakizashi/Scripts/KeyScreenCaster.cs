@@ -11,6 +11,7 @@ public class KeyScreenCaster : MonoBehaviour {
     [SerializeField] Sprite _lockImage, _unlockImage;
 
     Color onColor = new Color(1, 1, 1, 1);
+    Color warnColor = new Color(1, .25f, .25f, 1);
     Color offColor = new Color(1, 1, 1, 0);
 
     bool Locked => _image.sprite == _lockImage;
@@ -29,7 +30,7 @@ public class KeyScreenCaster : MonoBehaviour {
             PlayAnimationWithString("Space");
         }
         else if (Input.GetKeyDown(KeyCode.L)) {
-            PlayAnimationWithImage(_image.sprite == _lockImage ? _unlockImage : _lockImage);
+            PlayAnimationWithImage(_image.sprite == _lockImage ? _unlockImage : _lockImage, onColor);
         }
     }
 
@@ -37,7 +38,7 @@ public class KeyScreenCaster : MonoBehaviour {
 
     void PlayAnimationWithString(string text) {
         if (Locked) {
-            PlayAnimationWithImage(_lockImage);
+            PlayAnimationWithImage(_lockImage, warnColor);
             return;
         }
         if (_keyText.text == text && _keyText.color == onColor && _animator.GetBool("cast")) return;
@@ -48,10 +49,10 @@ public class KeyScreenCaster : MonoBehaviour {
         _animator.SetBool("cast", true);
     }
 
-    void PlayAnimationWithImage(Sprite sprite) {
+    void PlayAnimationWithImage(Sprite sprite, Color color) {
         if (_animator.GetBool("cast")) return;
         _keyText.color = offColor;
-        _image.color = onColor;
+        _image.color = color;
         _image.sprite = sprite;
         if (_animator.GetBool("cast")) _animator.Play("idle", -1, 0f);
         _animator.SetBool("cast", true);
