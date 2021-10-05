@@ -14,7 +14,6 @@ public class ObjectCreator : MonoBehaviour {
     bool IsCreating => _currentShapeIndex != 0;
     
     void Awake() {
-        InputManager.onSetInputLock = SetMoving;
         LoadResources();
         InstantiateSamples();
     }
@@ -59,8 +58,8 @@ public class ObjectCreator : MonoBehaviour {
         }
     }
 
-    void SetMoving(bool value) {
-        if (_isMoving && !value) return;
+    public void SetMoving(bool value) {
+        if ((_isMoving && !value) || (!_isMoving && value)) return;
         _isMoving = !value;
         _scroller.Reset();
         if (_currentShapeIndex != 0) shapes[_currentShapeIndex].enabled = false;

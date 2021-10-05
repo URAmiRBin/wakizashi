@@ -1,12 +1,12 @@
-using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class InputManager : MonoBehaviour {
-    public static Action<bool> onSetInputLock;
+    [SerializeField] UnityEvent<bool> onSetInputLock;
 
     void Awake() => Cursor.visible = false;
 
-    void Start() => onSetInputLock?.Invoke(false);
+    void Start() => onSetInputLock.Invoke(false);
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.W)) {
@@ -22,11 +22,9 @@ public class InputManager : MonoBehaviour {
             KeyScreenCaster.PlayAnimationWithString("D");
         }
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            KeyScreenCaster.PlayAnimationLock(false);
             onSetInputLock?.Invoke(false);
         }
         else if (Input.GetKeyDown(KeyCode.Space)) {
-            KeyScreenCaster.PlayAnimationLock(true);
             onSetInputLock?.Invoke(true);
         }
     }

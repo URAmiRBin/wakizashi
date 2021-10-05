@@ -6,8 +6,6 @@ public class SliceController : MonoBehaviour {
     int _currentSlicerIndex = 0;
     bool _isSlicing = false;
 
-    void Awake() => InputManager.onSetInputLock += SetSliceUnlock;
-
     void Update() {
         if (_isSlicing) {
             if (Input.GetKeyDown(KeyCode.Tab)) {
@@ -16,7 +14,7 @@ public class SliceController : MonoBehaviour {
         }
     }
 
-    void SetSliceUnlock(bool unlock) {
+    public void SetSliceUnlock(bool unlock) {
         _isSlicing = unlock;
         _scroller.gameObject.SetActive(unlock);
         _slicers[_currentSlicerIndex].Activate(unlock);

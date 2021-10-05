@@ -48,7 +48,7 @@ public class KeyScreenCaster : MonoBehaviour {
         _animator.SetBool("cast", true);
     }
 
-    public static void PlayAnimationLock(bool isLocked) {
+    public void PlayAnimationLock(bool isLocked) {
         if (isLocked) PlayAnimationWithImage(_lockImage, onColor);
         else PlayAnimationWithImage(_unlockImage, onColor);
     }
