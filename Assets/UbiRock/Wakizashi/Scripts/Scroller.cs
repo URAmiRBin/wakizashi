@@ -9,6 +9,8 @@ public class Scroller : MonoBehaviour {
     int _currentItemIndex;
     WaitForEndOfFrame _frameBreather = new WaitForEndOfFrame();
 
+    public int NextItemIndex => (_currentItemIndex + 1) % items.Length;
+
     void Awake() {
         _animator = GetComponent<Animator>();
         _nowText = transform.GetChild(0).GetComponent<Text>();

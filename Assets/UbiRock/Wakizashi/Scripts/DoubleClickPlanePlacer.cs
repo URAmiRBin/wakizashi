@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UbiRock.Wakizashi;
 
-public class DoubleClickPlanePlacer : MonoBehaviour, UISlicer
+public class DoubleClickPlanePlacer : UISlicer
 {
     [SerializeField] LayerMask _layerMask;
     [SerializeField] MonoBehaviourSlicer slicer;
@@ -55,6 +55,9 @@ public class DoubleClickPlanePlacer : MonoBehaviour, UISlicer
         hits.Clear();
     }
 
-    public void SetActive(bool value) => _isActive = value;
+    public override void Activate(bool value) {
+        line.ResetAndDeactivate();
+        _isActive = value;
+    }
 
 }
