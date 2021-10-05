@@ -29,6 +29,13 @@ public class Scroller : MonoBehaviour {
         return _isScrolling = true;
     }
 
+    public void Reset() {
+        if (_isScrolling) return;
+        _nextText.text = items[0];
+        _currentItemIndex = items.Length - 1;
+        _animator.SetTrigger("scroll");
+    }
+
     public void UpdateScrollText() => StartCoroutine(UpdateScrollTextCoroutine());
 
     IEnumerator UpdateScrollTextCoroutine() {

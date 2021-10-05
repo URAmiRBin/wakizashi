@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class ObjectCreator : MonoBehaviour {
     [SerializeField] Scroller _scroller;
+    [SerializeField] ObjectOptions _options;
     int _currentShapeIndex = 0;
     GameObject[] shapeResources = new GameObject[5];
     List<GameObject> shapes = new List<GameObject>();
     [SerializeField] Material material;
 
     bool _isMoving;
+    bool _isCreating;
     
     void Awake() {
         InputManager.onSetInputLock = SetMoving;
@@ -42,17 +44,35 @@ public class ObjectCreator : MonoBehaviour {
                 MakeObject();
             }
         }
+
+        if (_isCreating) {
+            if (Input.GetKeyDown(KeyCode.C)) {
+                _options.SwitchPhysics();
+            } else if (Input.GetKeyDown(KeyCode.V)) {
+                _options.SwitchFill();
+            } else if (Input.GetKeyDown(KeyCode.Escape)) {
+                shapes[_currentShapeIndex].SetActive(false);
+                _isCreating = false;
+                _options.SetDisplay(false);
+                _scroller.Reset();
+            }
+        }
     }
 
     void SetMoving(bool value) {
+        if (_isMoving && !value) return;
         _isMoving = !value;
         _scroller.gameObject.SetActive(!value);
+        _options.SetDisplay(!value && _currentShapeIndex != 0);
+        shapes[_currentShapeIndex]?.SetActive(!value);
     }
 
     void ChooseNextShape() {
         shapes[_currentShapeIndex]?.SetActive(false);
         shapes[_currentShapeIndex = _scroller.NextItemIndex]?.SetActive(true);
         _scroller.Scroll();
+        _isCreating = _currentShapeIndex != 0;
+        _options.SetDisplay(_isCreating);
     }
 
     void MakeObject() {
