@@ -28,9 +28,9 @@ namespace UbiRock.Wakizashi {
             Material material = meshToSlice.GetComponent<MeshRenderer>().material;
             
             SlicedHull result = Slicer.Slice(meshToSlice, p);
-            SlicedHull.normal = p.Normal;
+            SlicedHull.normal = _plane.Normal;
             GameObject topObject = result.CreateTopMesh(meshToSlice, material, sliceMaterial);
-            SlicedHull.normal = -p.Normal;
+            SlicedHull.normal = -_plane.Normal;
             GameObject bottomObject = result.CreateBottomMesh(meshToSlice, material, sliceMaterial);
 
             meshToSlice.gameObject.SetActive(false);
