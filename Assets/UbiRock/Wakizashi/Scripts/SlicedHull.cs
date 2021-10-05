@@ -12,23 +12,26 @@ namespace UbiRock.Wakizashi.Toolkit {
             _bottomMesh = bottomMesh;
         }
 
-        public GameObject CreateTopMesh(Transform transform, Material material, Material sliceMaterial) {
-            return CreateObjectAt(_topMesh, transform, material, sliceMaterial);
+        public GameObject CreateTopMesh(Transform transform, Material material, Material sliceMaterial, bool physics) {
+            return CreateObjectAt(_topMesh, transform, material, sliceMaterial, physics);
         }
 
-        public GameObject CreateBottomMesh(Transform transform, Material material, Material sliceMaterial) {
-            return CreateObjectAt(_bottomMesh, transform, material, sliceMaterial);
+        public GameObject CreateBottomMesh(Transform transform, Material material, Material sliceMaterial, bool physics) {
+            return CreateObjectAt(_bottomMesh, transform, material, sliceMaterial, physics);
         }
 
-        private GameObject CreateObjectAt(Mesh mesh, Transform transform, Material material, Material sliceMaterial, string name = "generated mesh") {
+        private GameObject CreateObjectAt(Mesh mesh, Transform transform, Material material, Material sliceMaterial, bool physics, string name = "generated mesh") {
             GameObject obj = new GameObject(name);
             obj.transform.localPosition = transform.localPosition;
             obj.transform.localRotation = transform.localRotation;
             obj.transform.localScale = transform.localScale;
 
+            System.Action callback = null;
+            if (physics) callback = () => obj.AddComponent<Rigidbody>();
+
             MeshRenderer meshRenderer = obj.AddComponent<MeshRenderer>();
             MeshFilter meshFilter = obj.AddComponent<MeshFilter>();
-            Tweener.Instance.MoveAlong(obj.transform, normal, .5f, .4f, EaseType.CircInOut, () => obj.AddComponent<Rigidbody>());
+            Tweener.Instance.MoveAlong(obj.transform, normal, .5f, .4f, EaseType.CircInOut, callback);
             MeshCollider collider = obj.AddComponent<MeshCollider>();
             collider.sharedMesh = mesh;
             collider.convex = true;

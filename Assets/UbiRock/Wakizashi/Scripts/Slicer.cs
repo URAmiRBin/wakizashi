@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace UbiRock.Wakizashi.Toolkit {
     public static class Slicer {
-        public static SlicedHull Slice(Sliceable sliceable, Plane plane) => Slice(sliceable.Mesh, plane);
+        public static SlicedHull Slice(Sliceable sliceable, Plane plane) => Slice(sliceable.Mesh, plane, sliceable.Fill);
 
-        public static SlicedHull Slice(Mesh mesh, Plane plane) {
+        public static SlicedHull Slice(Mesh mesh, Plane plane, bool fill) {
             Vector3[] vertices = mesh.vertices;
             Vector3[] normals = mesh.normals;
             Vector2[] uvs = mesh.uv;
@@ -16,10 +16,9 @@ namespace UbiRock.Wakizashi.Toolkit {
             Vertex[] newVertices = new Vertex[indicesCount * 2];
             int newVerticesCount = 0;
 
-            List<Tri> topTriangles, bottomTriangles, fillTriangles;
+            List<Tri> topTriangles, bottomTriangles;
             topTriangles = new List<Tri>();
             bottomTriangles = new List<Tri>();
-            fillTriangles = new List<Tri>();
 
             for(int index = 0; index < indicesCount; index += 3) {
                 int a = indices[index + 0];
@@ -50,20 +49,26 @@ namespace UbiRock.Wakizashi.Toolkit {
                 }
             }
 
-            newVertices = ArrayHelper.SliceTo<Vertex>(newVertices, newVerticesCount);
+Debug.Log(fill);
+            List<Tri> fillTriangles = fill ? Triangulate(ArrayHelper.SliceTo<Vertex>(newVertices, newVerticesCount), plane.Normal) : null;
+            
+            Mesh bottomMesh = MeshGenerator.CreateMeshFromTriangles(bottomTriangles, fillTriangles, false);
+            Mesh topMesh = MeshGenerator.CreateMeshFromTriangles(topTriangles, fillTriangles, true);
+            
+            return new SlicedHull(topMesh, bottomMesh);
+        }
 
+        static List<Tri> Triangulate(Vertex[] newVertices, Vector3 normal) {
+            List<Tri> fillTriangles = new List<Tri>();
             
             Vertex fanMiddleVertex = MathHelper.Average(newVertices);
-            fanMiddleVertex.Normal = plane.Normal;
-            fanMiddleVertex.UV = MathHelper.Project(fanMiddleVertex.Position, plane.Normal, Vector2.one * .5f);
+            fanMiddleVertex.Normal = normal;
+            fanMiddleVertex.UV = MathHelper.Project(fanMiddleVertex.Position, normal, Vector2.one * .5f);
 
-            // TODO: Fill should be an option
 
-            int[] hullIndices = ConvexHull.CalculateConvexHull(newVertices, plane.Normal);
+            int[] hullIndices = ConvexHull.CalculateConvexHull(newVertices, normal);
             // FIXME: Handle if the count does not create a triangle
 
-            // TODO: Add this to triangulator
-            // TODO: Account for concave
             for (int i = 0; i < hullIndices.Length - 1; i++) {
                 fillTriangles.Add(new Tri(
                     fanMiddleVertex,
@@ -78,10 +83,8 @@ namespace UbiRock.Wakizashi.Toolkit {
                     newVertices[hullIndices[0]]
                     ));
 
-            Mesh bottomMesh = MeshGenerator.CreateMeshFromTriangles(bottomTriangles, fillTriangles, false);
-            Mesh topMesh = MeshGenerator.CreateMeshFromTriangles(topTriangles, fillTriangles, true);
-            
-            return new SlicedHull(topMesh, bottomMesh);
+            return fillTriangles;
+
         }
     }
 }

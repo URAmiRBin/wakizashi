@@ -29,9 +29,9 @@ namespace UbiRock.Wakizashi {
             
             SlicedHull result = Slicer.Slice(meshToSlice, p);
             SlicedHull.normal = p.Normal;
-            GameObject topObject = result.CreateTopMesh(meshToSlice.transform, material, sliceMaterial);
+            GameObject topObject = result.CreateTopMesh(meshToSlice.transform, material, sliceMaterial, meshToSlice.Physics);
             SlicedHull.normal = -p.Normal;
-            GameObject bottomObject = result.CreateBottomMesh(meshToSlice.transform, material, sliceMaterial);
+            GameObject bottomObject = result.CreateBottomMesh(meshToSlice.transform, material, sliceMaterial, meshToSlice.Physics);
 
             meshToSlice.gameObject.SetActive(false);
         }

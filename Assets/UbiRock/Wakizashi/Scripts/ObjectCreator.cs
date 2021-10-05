@@ -79,7 +79,7 @@ public class ObjectCreator : MonoBehaviour {
     void MakeObject() {
         if (shapes[_currentShapeIndex] == null) return;
         GameObject go = Instantiate(shapes[_currentShapeIndex].gameObject, shapes[_currentShapeIndex].transform.position, shapes[_currentShapeIndex].transform.rotation);
-        Sliceable sliceable = go.AddComponent<Sliceable>();
+        Sliceable sliceable = go.GetComponent<Sliceable>();
         var (physics, fill) = _options.GetStatus();
         sliceable.SetOptions(physics, fill);
         go.layer = 6;
