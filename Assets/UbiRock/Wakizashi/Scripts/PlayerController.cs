@@ -34,6 +34,10 @@ public class PlayerController : MonoBehaviour
 
         transform.position += transform.right * horizontal * walkSpeed;
         transform.position +=  new Vector3(transform.forward.x, 0, transform.forward.z).normalized * forward * walkSpeed;
+        if (transform.position.x > 49) transform.position = new Vector3(49f, transform.position.y, transform.position.z);
+        if (transform.position.x < -49) transform.position = new Vector3(-49f, transform.position.y, transform.position.z);
+        if (transform.position.z > 49) transform.position = new Vector3(transform.position.x, transform.position.y, 49f);
+        if (transform.position.z < -49) transform.position = new Vector3(transform.position.x, transform.position.y, -49f);
 
         if (Input.GetMouseButtonDown(0)) PhysicsImpact();
     }
