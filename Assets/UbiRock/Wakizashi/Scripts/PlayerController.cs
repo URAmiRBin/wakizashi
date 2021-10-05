@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (_isInputLock) return;
-        
+
         float mouseX = Input.GetAxis("Mouse X"), mouseY = Input.GetAxis("Mouse Y");
 
         verticalRotation += mouseY * YSensitivity;

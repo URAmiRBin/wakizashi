@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UbiRock.Wakizashi;
 
-public class DoubleClickPlanePlacer : MonoBehaviour
+public class DoubleClickPlanePlacer : MonoBehaviour, UISlicer
 {
     [SerializeField] LayerMask _layerMask;
     [SerializeField] MonoBehaviourSlicer slicer;
@@ -11,10 +11,12 @@ public class DoubleClickPlanePlacer : MonoBehaviour
     Vector3 startWorldPosition, finishWorldPosition;
     Vector3 lastMousePosition;
 
-    
+    bool _isActive = false;
 
     void Update()
     {
+        if (!_isActive) return;
+
         lastMousePosition = Input.mousePosition;
         if (Input.GetMouseButtonDown(0)) {
             if (line.phase == LineDrawPhase.WaitingForFirstClick) {
@@ -52,5 +54,7 @@ public class DoubleClickPlanePlacer : MonoBehaviour
 
         hits.Clear();
     }
+
+    public void SetActive(bool value) => _isActive = value;
 
 }
