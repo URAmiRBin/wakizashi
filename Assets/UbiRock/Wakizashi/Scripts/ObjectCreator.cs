@@ -7,11 +7,11 @@ public class ObjectCreator : MonoBehaviour {
     [SerializeField] ObjectOptions _options;
     int _currentShapeIndex = 0;
     GameObject[] shapeResources = new GameObject[5];
-    List<GameObject> shapes = new List<GameObject>();
+    List<MeshRenderer> shapes = new List<MeshRenderer>();
     [SerializeField] Material material;
 
     bool _isMoving;
-    bool _isCreating;
+    bool IsCreating => _currentShapeIndex != 0;
     
     void Awake() {
         InputManager.onSetInputLock = SetMoving;
@@ -30,8 +30,8 @@ public class ObjectCreator : MonoBehaviour {
         foreach(GameObject go in shapeResources) {
             if (go == null) shapes.Add(null);
             else {
-                shapes.Add(Instantiate(go, transform.position + transform.forward * 10, Quaternion.identity, transform));
-                shapes[shapes.Count - 1].SetActive(false);
+                shapes.Add(Instantiate(go, transform.position + transform.forward * 10, Quaternion.identity, transform).GetComponent<MeshRenderer>());
+                shapes[shapes.Count - 1].enabled = false;
             }
         }
     }
@@ -45,14 +45,14 @@ public class ObjectCreator : MonoBehaviour {
             }
         }
 
-        if (_isCreating) {
+        if (IsCreating) {
             if (Input.GetKeyDown(KeyCode.C)) {
                 _options.SwitchPhysics();
             } else if (Input.GetKeyDown(KeyCode.V)) {
                 _options.SwitchFill();
             } else if (Input.GetKeyDown(KeyCode.Escape)) {
-                shapes[_currentShapeIndex].SetActive(false);
-                _isCreating = false;
+                if (_currentShapeIndex != 0) shapes[_currentShapeIndex].enabled = false;
+                _currentShapeIndex = 0;
                 _options.SetDisplay(false);
                 _scroller.Reset();
             }
@@ -62,23 +62,25 @@ public class ObjectCreator : MonoBehaviour {
     void SetMoving(bool value) {
         if (_isMoving && !value) return;
         _isMoving = !value;
-        _scroller.gameObject.SetActive(!value);
-        _options.SetDisplay(!value && _currentShapeIndex != 0);
-        shapes[_currentShapeIndex]?.SetActive(!value);
+        _scroller.Reset();
+        if (_currentShapeIndex != 0) shapes[_currentShapeIndex].enabled = false;
+        _currentShapeIndex = 0;
+        _options.SetDisplay(false);
     }
 
     void ChooseNextShape() {
-        shapes[_currentShapeIndex]?.SetActive(false);
-        shapes[_currentShapeIndex = _scroller.NextItemIndex]?.SetActive(true);
+        if (_currentShapeIndex != 0) shapes[_currentShapeIndex].enabled = false;
+        _currentShapeIndex = _scroller.NextItemIndex;
+        if (_currentShapeIndex != 0) shapes[_currentShapeIndex].enabled = true;
         _scroller.Scroll();
-        _isCreating = _currentShapeIndex != 0;
-        _options.SetDisplay(_isCreating);
+        _options.SetDisplay(IsCreating);
     }
 
     void MakeObject() {
         if (shapes[_currentShapeIndex] == null) return;
-        GameObject go = Instantiate(shapes[_currentShapeIndex], shapes[_currentShapeIndex].transform.position, shapes[_currentShapeIndex].transform.rotation);
+        GameObject go = Instantiate(shapes[_currentShapeIndex].gameObject, shapes[_currentShapeIndex].transform.position, shapes[_currentShapeIndex].transform.rotation);
         go.layer = 6;
         go.GetComponent<Renderer>().material = material;
+        go.GetComponent<Collider>().enabled = true;
     }
 }
