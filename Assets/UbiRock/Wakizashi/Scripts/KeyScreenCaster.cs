@@ -1,20 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class KeyScreenCaster : MonoBehaviour {
-    Animator _animator;
-    Text _keyText;
-    Image _image;
+    static Animator _animator;
+    static Text _keyText;
+    static Image _image;
 
-    [SerializeField] Sprite _lockImage, _unlockImage;
+    static Sprite _lockImage, _unlockImage;
 
-    Color onColor = new Color(1, 1, 1, 1);
-    Color warnColor = new Color(1, .25f, .25f, 1);
-    Color offColor = new Color(1, 1, 1, 0);
+    static Color onColor = new Color(1, 1, 1, 1);
+    static Color warnColor = new Color(1, .25f, .25f, 1);
+    static Color offColor = new Color(1, 1, 1, 0);
 
-    bool Locked => _image.sprite == _lockImage;
+    static bool Locked => _image.sprite == _lockImage;
 
     void Awake() {
         _animator = GetComponent<Animator>();
@@ -22,21 +20,14 @@ public class KeyScreenCaster : MonoBehaviour {
         _image = GetComponentsInChildren<Image>()[1];
     }
 
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            PlayAnimationWithString("ESC");
-        }
-        else if (Input.GetKeyDown(KeyCode.Space)) {
-            PlayAnimationWithString("Space");
-        }
-        else if (Input.GetKeyDown(KeyCode.L)) {
-            PlayAnimationWithImage(_image.sprite == _lockImage ? _unlockImage : _lockImage, onColor);
-        }
+    void Start() {
+        _lockImage = Resources.Load<Sprite>("lock-locked-512");
+        _unlockImage = Resources.Load<Sprite>("lock-unlocked-512");
     }
 
     public void ResetCastTrigger() => _animator.SetBool("cast", false);
 
-    void PlayAnimationWithString(string text) {
+    public static void PlayAnimationWithString(string text) {
         if (Locked) {
             PlayAnimationWithImage(_lockImage, warnColor);
             return;
@@ -49,12 +40,16 @@ public class KeyScreenCaster : MonoBehaviour {
         _animator.SetBool("cast", true);
     }
 
-    void PlayAnimationWithImage(Sprite sprite, Color color) {
-        if (_animator.GetBool("cast")) return;
+    public static void PlayAnimationWithImage(Sprite sprite, Color color) {
         _keyText.color = offColor;
         _image.color = color;
         _image.sprite = sprite;
         if (_animator.GetBool("cast")) _animator.Play("idle", -1, 0f);
         _animator.SetBool("cast", true);
+    }
+
+    public static void PlayAnimationLock(bool isLocked) {
+        if (isLocked) PlayAnimationWithImage(_lockImage, onColor);
+        else PlayAnimationWithImage(_unlockImage, onColor);
     }
 }
