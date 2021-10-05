@@ -12,7 +12,9 @@ public class PlayerController : MonoBehaviour
 
     float verticalRotation, horizontalRotation;
 
-    public void SetInputLock(bool value) => _isInputLock = value;
+    void Awake() => InputManager.onSetInputLock += SetInputLock;
+
+    void SetInputLock(bool value) => _isInputLock = value;
 
     void Update()
     {

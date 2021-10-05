@@ -15,6 +15,7 @@ public class KeyScreenCaster : MonoBehaviour {
     static bool Locked => _image.sprite == _lockImage;
 
     void Awake() {
+        InputManager.onSetInputLock += PlayAnimationLock;
         _animator = GetComponent<Animator>();
         _keyText = GetComponentInChildren<Text>();
         _image = GetComponentsInChildren<Image>()[1];
@@ -48,7 +49,7 @@ public class KeyScreenCaster : MonoBehaviour {
         _animator.SetBool("cast", true);
     }
 
-    public void PlayAnimationLock(bool isLocked) {
+    void PlayAnimationLock(bool isLocked) {
         if (isLocked) PlayAnimationWithImage(_lockImage, onColor);
         else PlayAnimationWithImage(_unlockImage, onColor);
     }

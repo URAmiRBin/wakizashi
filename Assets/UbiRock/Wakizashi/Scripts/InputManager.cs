@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class InputManager : MonoBehaviour {
-    [SerializeField] UnityEvent<bool> onSetInputLock;
+    public static UnityAction<bool> onSetInputLock;
 
     void Awake() => Cursor.visible = false;
 
