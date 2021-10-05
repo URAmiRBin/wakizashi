@@ -991,6 +991,7 @@ GameObject:
   - component: {fileID: 963194231}
   - component: {fileID: 963194229}
   - component: {fileID: 963194233}
+  - component: {fileID: 963194234}
   m_Layer: 0
   m_Name: Player
   m_TagString: MainCamera
@@ -1142,6 +1143,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 435d1e3f6b593f64187373979d18642d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &963194234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ee2451343f9ffc46bc6495dbe7195c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scroller: {fileID: 1325873340}
+  material: {fileID: 2100000, guid: bdcfb64763e072645b58d7a589b2ce0d, type: 2}
 --- !u!1 &989700865
 GameObject:
   m_ObjectHideFlags: 0
@@ -1437,7 +1452,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: CLICK
+  m_Text: 
 --- !u!222 &1246986521
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1498,7 +1513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items:
-  - NONE
+  - 
   - PLANE
   - CUBE
   - SPHERE
@@ -2465,6 +2480,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2908895329079493306, guid: dbeb14a7d66d08b41b1c6d28b9e2f16e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bdcfb64763e072645b58d7a589b2ce0d, type: 2}
     - target: {fileID: 2908895329079493308, guid: dbeb14a7d66d08b41b1c6d28b9e2f16e, type: 3}
       propertyPath: m_Name
       value: Cube
@@ -2667,5 +2686,9 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6122627652042395062, guid: 5806bde281f281749a50295364ba18ed, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bdcfb64763e072645b58d7a589b2ce0d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5806bde281f281749a50295364ba18ed, type: 3}

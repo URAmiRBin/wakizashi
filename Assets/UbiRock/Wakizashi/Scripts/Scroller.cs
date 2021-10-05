@@ -7,6 +7,7 @@ public class Scroller : MonoBehaviour {
     Animator _animator;
     Text _nowText, _nextText;
     int _currentItemIndex;
+    bool _isScrolling;
     WaitForEndOfFrame _frameBreather = new WaitForEndOfFrame();
 
     public int NextItemIndex => (_currentItemIndex + 1) % items.Length;
@@ -22,7 +23,11 @@ public class Scroller : MonoBehaviour {
         _nextText.text = items[(_currentItemIndex + 1) % items.Length];
     }
 
-    public void Scroll() => _animator.SetTrigger("scroll");
+    public bool Scroll() {
+        if (_isScrolling) return false;
+        _animator.SetTrigger("scroll");
+        return _isScrolling = true;
+    }
 
     public void UpdateScrollText() => StartCoroutine(UpdateScrollTextCoroutine());
 
@@ -31,5 +36,6 @@ public class Scroller : MonoBehaviour {
         _currentItemIndex = (_currentItemIndex + 1) % items.Length;
         _nowText.text = items[_currentItemIndex];
         _nextText.text = items[(_currentItemIndex + 1) % items.Length];
+        _isScrolling = false;
     }
 }
