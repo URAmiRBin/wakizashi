@@ -12,22 +12,22 @@ namespace UbiRock.Wakizashi.Toolkit {
             _bottomMesh = bottomMesh;
         }
 
-        public GameObject CreateTopMesh(Transform transform, Material material, Material sliceMaterial, bool physics) {
-            return CreateObjectAt(_topMesh, transform, material, sliceMaterial, physics);
+        public GameObject CreateTopMesh(Sliceable sliceable, Material material, Material sliceMaterial) {
+            return CreateObjectAt(_topMesh, sliceable, material, sliceMaterial);
         }
 
-        public GameObject CreateBottomMesh(Transform transform, Material material, Material sliceMaterial, bool physics) {
-            return CreateObjectAt(_bottomMesh, transform, material, sliceMaterial, physics);
+        public GameObject CreateBottomMesh(Sliceable sliceable, Material material, Material sliceMaterial) {
+            return CreateObjectAt(_bottomMesh, sliceable, material, sliceMaterial);
         }
 
-        private GameObject CreateObjectAt(Mesh mesh, Transform transform, Material material, Material sliceMaterial, bool physics, string name = "generated mesh") {
+        private GameObject CreateObjectAt(Mesh mesh, Sliceable sliceable, Material material, Material sliceMaterial, string name = "generated mesh") {
             GameObject obj = new GameObject(name);
-            obj.transform.localPosition = transform.localPosition;
-            obj.transform.localRotation = transform.localRotation;
-            obj.transform.localScale = transform.localScale;
+            obj.transform.localPosition = sliceable.transform.localPosition;
+            obj.transform.localRotation = sliceable.transform.localRotation;
+            obj.transform.localScale = sliceable.transform.localScale;
 
             System.Action callback = null;
-            if (physics) callback = () => obj.AddComponent<Rigidbody>();
+            if (sliceable.Physics) callback = () => obj.AddComponent<Rigidbody>();
 
             MeshRenderer meshRenderer = obj.AddComponent<MeshRenderer>();
             MeshFilter meshFilter = obj.AddComponent<MeshFilter>();
@@ -39,6 +39,8 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             meshFilter.mesh = mesh;
             meshRenderer.sharedMaterials = new Material[] {material};
+            Sliceable newSliceable = obj.AddComponent<Sliceable>();
+            newSliceable.SetOptions(sliceable.Physics, sliceable.Fill);
 
             return obj;
         }
