@@ -5,6 +5,7 @@ using UnityEngine;
 public class ObjectCreator : MonoBehaviour {
     [SerializeField] Scroller _scroller;
     [SerializeField] ObjectOptions _options;
+    [SerializeField] Transform garbage;
     int _currentShapeIndex = 0;
     GameObject[] shapeResources = new GameObject[5];
     List<MeshRenderer> shapes = new List<MeshRenderer>();
@@ -78,7 +79,7 @@ public class ObjectCreator : MonoBehaviour {
 
     void MakeObject() {
         if (shapes[_currentShapeIndex] == null) return;
-        GameObject go = Instantiate(shapes[_currentShapeIndex].gameObject, shapes[_currentShapeIndex].transform.position, shapes[_currentShapeIndex].transform.rotation);
+        GameObject go = Instantiate(shapes[_currentShapeIndex].gameObject, shapes[_currentShapeIndex].transform.position, shapes[_currentShapeIndex].transform.rotation, garbage);
         Sliceable sliceable = go.GetComponent<Sliceable>();
         var (physics, fill) = _options.GetStatus();
         sliceable.SetOptions(physics, fill);

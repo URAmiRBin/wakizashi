@@ -12,16 +12,20 @@ public class InputManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.W)) {
             KeyScreenCaster.PlayAnimationWithString("W");
         }
-        if (Input.GetKeyDown(KeyCode.A)) {
+        else if (Input.GetKeyDown(KeyCode.A)) {
             KeyScreenCaster.PlayAnimationWithString("A");
         }
-        if (Input.GetKeyDown(KeyCode.S)) {
+        else if (Input.GetKeyDown(KeyCode.S)) {
             KeyScreenCaster.PlayAnimationWithString("S");
         }
-        if (Input.GetKeyDown(KeyCode.D)) {
+        else if (Input.GetKeyDown(KeyCode.D)) {
             KeyScreenCaster.PlayAnimationWithString("D");
         }
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+        else if (Input.GetKeyDown(KeyCode.R)) {
+            KeyScreenCaster.PlayAnimationWithString("R");
+            TrashCan.Recycle();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape)) {
             onSetInputLock?.Invoke(false);
         }
         else if (Input.GetKeyDown(KeyCode.Space)) {

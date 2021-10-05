@@ -3,6 +3,7 @@ using UbiRock.Wakizashi.Toolkit;
 
 namespace UbiRock.Wakizashi {
     public class MonoBehaviourSlicer : MonoBehaviour {
+        [SerializeField] Transform garbage;
         public Sliceable meshToSlice;
         Toolkit.Plane _plane;
         public Material sliceMaterial;
@@ -34,6 +35,10 @@ namespace UbiRock.Wakizashi {
             GameObject bottomObject = result.CreateBottomMesh(meshToSlice, material, sliceMaterial);
 
             meshToSlice.gameObject.SetActive(false);
+
+            bottomObject.transform.parent = garbage;
+            topObject.transform.parent = garbage;
+            meshToSlice.transform.parent = garbage;
         }
     }
 }
