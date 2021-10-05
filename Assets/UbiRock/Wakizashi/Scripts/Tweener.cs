@@ -18,7 +18,6 @@ namespace UbiRock.Utils {
             Vector3 originalPosition = transform.position;
             float t = 0;
             while (t <= duration) {
-                Debug.Log(t/duration);
                 transform.position = originalPosition + direction * (float)Easing.Ease(Mathf.Lerp(0, amount, t / duration), type);
                 t += Time.deltaTime;
                 yield return null;
