@@ -34,5 +34,21 @@ public class PlayerController : MonoBehaviour
 
         transform.position += transform.right * horizontal * walkSpeed;
         transform.position +=  new Vector3(transform.forward.x, 0, transform.forward.z).normalized * forward * walkSpeed;
+
+        if (Input.GetMouseButtonDown(0)) PhysicsImpact();
+    }
+
+    void PhysicsImpact() {
+        Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast (ray, out hit, 50)) {
+            Vector3 position = hit.point;
+            Collider[] objects = UnityEngine.Physics.OverlapSphere(position, 10f);
+            foreach (Collider h in objects)
+            {
+                Rigidbody r = h.GetComponent<Rigidbody>();
+                if (r != null) r.AddExplosionForce(250, position, 50);
+            }
+        }
     }
 }

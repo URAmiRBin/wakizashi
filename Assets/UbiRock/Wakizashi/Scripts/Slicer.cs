@@ -49,7 +49,6 @@ namespace UbiRock.Wakizashi.Toolkit {
                 }
             }
 
-Debug.Log(fill);
             List<Tri> fillTriangles = fill ? Triangulate(ArrayHelper.SliceTo<Vertex>(newVertices, newVerticesCount), plane.Normal) : null;
             
             Mesh bottomMesh = MeshGenerator.CreateMeshFromTriangles(bottomTriangles, fillTriangles, false);
