@@ -7,7 +7,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     public float walkSpeed;
-    bool _isInputLock;
+    bool  _isInputLock;
+    public static bool _excludeRotation;
 
     float verticalRotation, horizontalRotation;
 
@@ -17,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (_isInputLock) return;
+        if (_isInputLock && !_excludeRotation) return;
 
         float mouseX = Input.GetAxis("Mouse X"), mouseY = Input.GetAxis("Mouse Y");
 
@@ -26,6 +27,8 @@ public class PlayerController : MonoBehaviour
         horizontalRotation += mouseX * XSensitivity;
 
         transform.eulerAngles = new Vector3(-verticalRotation, horizontalRotation, 0);
+
+        if (_isInputLock) return;
 
         float horizontal = Input.GetAxis("Horizontal"), forward = Input.GetAxis("Vertical");
 

@@ -8,6 +8,9 @@ namespace UbiRock.Wakizashi {
         public Material sliceMaterial;
 
         public void SetSlicePlane(Toolkit.Plane plane) => _plane = plane;
+        public void SetSlicePlane(Transform planeTransform) {
+            _plane = new Toolkit.Plane(planeTransform.position, planeTransform.up);
+        }
 
         public void SetMeshToSlice(GameObject m) => meshToSlice = m;
 
