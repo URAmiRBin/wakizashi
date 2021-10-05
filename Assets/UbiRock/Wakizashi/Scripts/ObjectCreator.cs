@@ -8,7 +8,7 @@ public class ObjectCreator : MonoBehaviour {
     int _currentShapeIndex = 0;
     GameObject[] shapeResources = new GameObject[5];
     List<MeshRenderer> shapes = new List<MeshRenderer>();
-    [SerializeField] Material material;
+    [SerializeField] Material fillMaterial, emptyMaterial;
 
     bool _isMoving;
     bool IsCreating => _currentShapeIndex != 0;
@@ -79,8 +79,11 @@ public class ObjectCreator : MonoBehaviour {
     void MakeObject() {
         if (shapes[_currentShapeIndex] == null) return;
         GameObject go = Instantiate(shapes[_currentShapeIndex].gameObject, shapes[_currentShapeIndex].transform.position, shapes[_currentShapeIndex].transform.rotation);
+        Sliceable sliceable = go.AddComponent<Sliceable>();
+        var (physics, fill) = _options.GetStatus();
+        sliceable.SetOptions(physics, fill);
         go.layer = 6;
-        go.GetComponent<Renderer>().material = material;
+        go.GetComponent<Renderer>().material = fill ? fillMaterial : emptyMaterial;
         go.GetComponent<Collider>().enabled = true;
     }
 }

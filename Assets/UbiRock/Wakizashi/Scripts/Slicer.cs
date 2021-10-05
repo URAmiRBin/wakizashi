@@ -3,13 +3,7 @@ using UnityEngine;
 
 namespace UbiRock.Wakizashi.Toolkit {
     public static class Slicer {
-        public static SlicedHull Slice(GameObject gameObject, Plane plane) {
-            MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
-            MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
-            Mesh mesh = meshFilter.sharedMesh;
-
-            return Slice(mesh, plane);
-        }
+        public static SlicedHull Slice(Sliceable sliceable, Plane plane) => Slice(sliceable.Mesh, plane);
 
         public static SlicedHull Slice(Mesh mesh, Plane plane) {
             Vector3[] vertices = mesh.vertices;

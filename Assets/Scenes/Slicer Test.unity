@@ -1355,7 +1355,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scroller: {fileID: 1325873340}
   _options: {fileID: 1041731372}
-  material: {fileID: 2100000, guid: bdcfb64763e072645b58d7a589b2ce0d, type: 2}
+  fillMaterial: {fileID: 0}
+  emptyMaterial: {fileID: 0}
 --- !u!1 &989700865
 GameObject:
   m_ObjectHideFlags: 0

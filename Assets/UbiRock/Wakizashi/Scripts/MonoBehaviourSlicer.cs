@@ -3,7 +3,7 @@ using UbiRock.Wakizashi.Toolkit;
 
 namespace UbiRock.Wakizashi {
     public class MonoBehaviourSlicer : MonoBehaviour {
-        public GameObject meshToSlice;
+        public Sliceable meshToSlice;
         Toolkit.Plane _plane;
         public Material sliceMaterial;
 
@@ -12,7 +12,7 @@ namespace UbiRock.Wakizashi {
             _plane = new Toolkit.Plane(planeTransform.position, planeTransform.up);
         }
 
-        public void SetMeshToSlice(GameObject m) => meshToSlice = m;
+        public void SetMeshToSlice(Sliceable m) => meshToSlice = m;
 
         public void Slice() {
             Matrix4x4 mat = meshToSlice.transform.worldToLocalMatrix;
@@ -33,7 +33,7 @@ namespace UbiRock.Wakizashi {
             SlicedHull.normal = -p.Normal;
             GameObject bottomObject = result.CreateBottomMesh(meshToSlice.transform, material, sliceMaterial);
 
-            meshToSlice.SetActive(false);
+            meshToSlice.gameObject.SetActive(false);
         }
     }
 }

@@ -30,7 +30,7 @@ public class KeyboardPlanePlacer : UISlicer {
         slicer.SetSlicePlane(_planeTransform);
 
         foreach(Collider collider in hitColliders) {
-            slicer.meshToSlice = collider.gameObject;
+            slicer.meshToSlice = collider.GetComponent<Sliceable>();
             slicer.Slice();
         }
     }

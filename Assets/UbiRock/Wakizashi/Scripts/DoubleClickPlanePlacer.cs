@@ -48,7 +48,7 @@ public class DoubleClickPlanePlacer : UISlicer
         slicer.SetSlicePlane(new UbiRock.Wakizashi.Toolkit.Plane(transform.position, startWorldPosition, finishWorldPosition));
 
         foreach(GameObject go in hits) {
-            slicer.meshToSlice = go;
+            slicer.meshToSlice = go.GetComponent<Sliceable>();
             slicer.Slice();
         }
 

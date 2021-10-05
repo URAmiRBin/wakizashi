@@ -36,4 +36,6 @@ public class ObjectOptions : MonoBehaviour {
     public void SetDisplay(bool value) {
         foreach(Transform child in transform) child.gameObject.SetActive(value);
     }
+
+    public (bool, bool) GetStatus() => (_physics, _fill);
 }
