@@ -21,7 +21,7 @@ public class ObjectCreator : MonoBehaviour {
     }
 
     void LoadResources() {
-        shapeResources[1] = Resources.Load<GameObject>("Cube");
+        shapeResources[1] = Resources.Load<GameObject>("Plane");
         shapeResources[2] = Resources.Load<GameObject>("Cube");
         shapeResources[3] = Resources.Load<GameObject>("Sphere");
         shapeResources[4] = Resources.Load<GameObject>("Cylinder");
@@ -30,6 +30,10 @@ public class ObjectCreator : MonoBehaviour {
     void InstantiateSamples() {
         foreach(GameObject go in shapeResources) {
             if (go == null) shapes.Add(null);
+            else if (go.name == "Plane") {
+                shapes.Add(Instantiate(go, transform.position + transform.forward * 10, Quaternion.Euler(-90, 0, 0), transform).GetComponent<MeshRenderer>());
+                shapes[shapes.Count - 1].enabled = false;
+            }
             else {
                 shapes.Add(Instantiate(go, transform.position + transform.forward * 10, Quaternion.identity, transform).GetComponent<MeshRenderer>());
                 shapes[shapes.Count - 1].enabled = false;
