@@ -35,7 +35,7 @@ namespace UbiRock.Wakizashi.Toolkit {
 
         public Vector2 UV {
             get => _uv;
-            private set {
+            set {
                 _uv = value;
                 _hasUV = true;
             }
@@ -43,7 +43,7 @@ namespace UbiRock.Wakizashi.Toolkit {
 
         public Vector3 Normal {
             get => _normal;
-            private set {
+            set {
                 _normal = value;
                 _hasNormal = true;
             }

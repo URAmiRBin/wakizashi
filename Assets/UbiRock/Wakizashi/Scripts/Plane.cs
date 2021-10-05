@@ -18,6 +18,7 @@ namespace UbiRock.Wakizashi.Toolkit {
         public Vector3 Normal { get => _normal; private set => _normal = Vector3.Normalize(value); }
 
         public float Distance { get => Vector3.Dot(_position, _normal); }
+        public Vector3 Position { get => _position; }
 
         public PointToPlaneRelation GetPointToPlaneRelation(Vector3 p) {
             float planeDistance = Vector3.Dot(_position, _normal);
