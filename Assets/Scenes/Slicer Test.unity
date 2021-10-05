@@ -595,6 +595,7 @@ GameObject:
   - component: {fileID: 543159727}
   - component: {fileID: 543159729}
   - component: {fileID: 543159728}
+  - component: {fileID: 543159730}
   m_Layer: 5
   m_Name: Physics status
   m_TagString: Untagged
@@ -663,6 +664,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 543159726}
   m_CullTransparentMesh: 1
+--- !u!95 &543159730
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543159726}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 230f6e8c0fe82d948939ecf47d80202f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!224 &695764854 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3667056851602739217, guid: 1fe4fcf391023de469e7a7a39473c418, type: 3}
@@ -878,6 +898,7 @@ GameObject:
   - component: {fileID: 837084387}
   - component: {fileID: 837084389}
   - component: {fileID: 837084388}
+  - component: {fileID: 837084390}
   m_Layer: 5
   m_Name: Fill
   m_TagString: Untagged
@@ -946,6 +967,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 837084386}
   m_CullTransparentMesh: 1
+--- !u!95 &837084390
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837084386}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 230f6e8c0fe82d948939ecf47d80202f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &886208196
 GameObject:
   m_ObjectHideFlags: 0
@@ -1872,6 +1912,7 @@ GameObject:
   - component: {fileID: 1495768267}
   - component: {fileID: 1495768269}
   - component: {fileID: 1495768268}
+  - component: {fileID: 1495768270}
   m_Layer: 5
   m_Name: Physics
   m_TagString: Untagged
@@ -1940,6 +1981,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1495768266}
   m_CullTransparentMesh: 1
+--- !u!95 &1495768270
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495768266}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 230f6e8c0fe82d948939ecf47d80202f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1540236359
 GameObject:
   m_ObjectHideFlags: 0
@@ -2455,6 +2515,7 @@ GameObject:
   - component: {fileID: 1804552713}
   - component: {fileID: 1804552715}
   - component: {fileID: 1804552714}
+  - component: {fileID: 1804552716}
   m_Layer: 5
   m_Name: Fill status
   m_TagString: Untagged
@@ -2523,6 +2584,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1804552712}
   m_CullTransparentMesh: 1
+--- !u!95 &1804552716
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804552712}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 230f6e8c0fe82d948939ecf47d80202f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1837490240
 GameObject:
   m_ObjectHideFlags: 0
