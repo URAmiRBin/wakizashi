@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void PhysicsImpact() {
-        Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0));
         RaycastHit hit;
         if (Physics.Raycast (ray, out hit, 50)) {
             Vector3 position = hit.point;
