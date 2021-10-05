@@ -56,6 +56,7 @@ public class DoubleClickPlanePlacer : UISlicer
     }
 
     public override void Activate(bool value) {
+        Cursor.visible = value;
         line.ResetAndDeactivate();
         _isActive = value;
     }

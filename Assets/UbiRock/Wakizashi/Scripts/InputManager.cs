@@ -4,6 +4,8 @@ using UnityEngine;
 public class InputManager : MonoBehaviour {
     public static Action<bool> onSetInputLock;
 
+    void Awake() => Cursor.visible = false;
+
     void Start() => onSetInputLock?.Invoke(false);
 
     void Update() {
