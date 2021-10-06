@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7455230466354792326}
   - component: {fileID: 6349814284200487433}
   - component: {fileID: 774355076517460592}
-  - component: {fileID: 5167328563741071892}
   - component: {fileID: 2164731475736466505}
   m_Layer: 0
   m_Name: Cylinder
@@ -98,25 +97,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!95 &5167328563741071892
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8063943526208886860}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7ee53262f805fe7428df7a12e1037677, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &2164731475736466505
 MonoBehaviour:
   m_ObjectHideFlags: 0
