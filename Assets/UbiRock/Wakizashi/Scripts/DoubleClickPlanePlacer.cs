@@ -59,6 +59,8 @@ public class DoubleClickPlanePlacer : UISlicer
         Cursor.visible = value;
         line.ResetAndDeactivate();
         _isActive = value;
+        if (value) ContextSensitiveHelper.Instance.AddHelp(ContextSensitiveHelper.Mode.ClickSlice);
+        else ContextSensitiveHelper.Instance.RemoveHelp(ContextSensitiveHelper.Mode.ClickSlice);
     }
 
 }

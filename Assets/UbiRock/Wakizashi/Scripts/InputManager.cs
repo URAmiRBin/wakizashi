@@ -39,6 +39,8 @@ public class InputManager : MonoBehaviour {
         }
         else if (Input.GetKeyDown(KeyCode.Space)) {
             onSetInputLock?.Invoke(true);
+        } else if (Input.GetKeyDown(KeyCode.F1)) {
+            ContextSensitiveHelper.Instance.SwitchHelpDisplay();
         }
     }
 }

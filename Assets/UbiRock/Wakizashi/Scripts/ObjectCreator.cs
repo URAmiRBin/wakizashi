@@ -46,7 +46,7 @@ public class ObjectCreator : MonoBehaviour {
         if (_isMoving) {
             if (Input.GetKeyDown(KeyCode.Tab)) {
                 ChooseNextShape();
-            } else if (Input.GetMouseButtonDown(0)) {
+            } else if (Input.GetKeyDown(KeyCode.F)) {
                 MakeObject();
             }
         }
@@ -70,6 +70,7 @@ public class ObjectCreator : MonoBehaviour {
             else if (Input.GetKeyDown(KeyCode.Escape)) {
                 if (_currentShapeIndex != 0) shapes[_currentShapeIndex].enabled = false;
                 _currentShapeIndex = 0;
+                ContextSensitiveHelper.Instance.RemoveHelp(ContextSensitiveHelper.Mode.Creation);
                 _options.SetDisplay(false);
                 _scroller.Reset();
             }
@@ -80,15 +81,21 @@ public class ObjectCreator : MonoBehaviour {
         if ((_isMoving && !value) || (!_isMoving && value)) return;
         _isMoving = !value;
         _scroller.Reset();
-        if (_currentShapeIndex != 0) shapes[_currentShapeIndex].enabled = false;
+        if (IsCreating) shapes[_currentShapeIndex].enabled = false;
         _currentShapeIndex = 0;
+        ContextSensitiveHelper.Instance.RemoveHelp(ContextSensitiveHelper.Mode.Creation);
         _options.SetDisplay(false);
     }
 
     void ChooseNextShape() {
-        if (_currentShapeIndex != 0) shapes[_currentShapeIndex].enabled = false;
+        if (IsCreating) shapes[_currentShapeIndex].enabled = false;
         _currentShapeIndex = _scroller.NextItemIndex;
-        if (_currentShapeIndex != 0) shapes[_currentShapeIndex].enabled = true;
+        if (IsCreating) {
+            shapes[_currentShapeIndex].enabled = true;
+            ContextSensitiveHelper.Instance.AddHelp(ContextSensitiveHelper.Mode.Creation);
+        } else {
+            ContextSensitiveHelper.Instance.RemoveHelp(ContextSensitiveHelper.Mode.Creation);
+        }
         _scroller.Scroll();
         _options.SetDisplay(IsCreating);
     }

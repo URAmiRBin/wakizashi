@@ -6,11 +6,7 @@ namespace UbiRock.Utils {
     public class Tweener : MonoBehaviour {
         public static Tweener Instance;
 
-        void Awake() {
-            if (Instance != null) Destroy(this);
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
+        void Awake() => Instance = this;
         
 
         IEnumerator MoveAlongCoroutine(Transform transform, Vector3 direction, float duration = 1, float amount = 1, EaseType type = EaseType.Linear, Action callback = null) {
