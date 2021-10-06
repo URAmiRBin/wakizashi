@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UbiRock.Utils;
 
 public class ObjectCreator : MonoBehaviour {
     [SerializeField] Scroller _scroller;
@@ -45,19 +46,31 @@ public class ObjectCreator : MonoBehaviour {
         if (_isMoving) {
             if (Input.GetKeyDown(KeyCode.Tab)) {
                 ChooseNextShape();
-            } else if (Input.GetMouseButtonDown(0)) {
+            } else if (Input.GetKeyDown(KeyCode.F)) {
                 MakeObject();
             }
         }
 
         if (IsCreating) {
-            if (Input.GetKeyDown(KeyCode.C)) {
+            if (Input.GetKeyDown(KeyCode.X)) {
                 _options.SwitchPhysics();
             } else if (Input.GetKeyDown(KeyCode.V)) {
                 _options.SwitchFill();
-            } else if (Input.GetKeyDown(KeyCode.Escape)) {
+            } else if(Input.GetKey(KeyCode.E)) {
+                shapes[_currentShapeIndex].transform.localScale += Vector3.right * .01f;
+            } else if(Input.GetKey(KeyCode.Q)) {
+                shapes[_currentShapeIndex].transform.localScale -= Vector3.right * .01f;
+            } else if(Input.GetKey(KeyCode.C)) {
+                if (_currentShapeIndex == 1) shapes[_currentShapeIndex].transform.localScale += Vector3.forward * .01f;
+                else shapes[_currentShapeIndex].transform.localScale += Vector3.up * .01f;
+            } else if(Input.GetKey(KeyCode.Z)) {
+                if (_currentShapeIndex == 1) shapes[_currentShapeIndex].transform.localScale -= Vector3.forward * .01f;
+                else shapes[_currentShapeIndex].transform.localScale -= Vector3.up * .01f;
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape)) {
                 if (_currentShapeIndex != 0) shapes[_currentShapeIndex].enabled = false;
                 _currentShapeIndex = 0;
+                ContextSensitiveHelper.Instance.RemoveHelp(ContextSensitiveHelper.Mode.Creation);
                 _options.SetDisplay(false);
                 _scroller.Reset();
             }
@@ -68,15 +81,21 @@ public class ObjectCreator : MonoBehaviour {
         if ((_isMoving && !value) || (!_isMoving && value)) return;
         _isMoving = !value;
         _scroller.Reset();
-        if (_currentShapeIndex != 0) shapes[_currentShapeIndex].enabled = false;
+        if (IsCreating) shapes[_currentShapeIndex].enabled = false;
         _currentShapeIndex = 0;
+        ContextSensitiveHelper.Instance.RemoveHelp(ContextSensitiveHelper.Mode.Creation);
         _options.SetDisplay(false);
     }
 
     void ChooseNextShape() {
-        if (_currentShapeIndex != 0) shapes[_currentShapeIndex].enabled = false;
+        if (IsCreating) shapes[_currentShapeIndex].enabled = false;
         _currentShapeIndex = _scroller.NextItemIndex;
-        if (_currentShapeIndex != 0) shapes[_currentShapeIndex].enabled = true;
+        if (IsCreating) {
+            shapes[_currentShapeIndex].enabled = true;
+            ContextSensitiveHelper.Instance.AddHelp(ContextSensitiveHelper.Mode.Creation);
+        } else {
+            ContextSensitiveHelper.Instance.RemoveHelp(ContextSensitiveHelper.Mode.Creation);
+        }
         _scroller.Scroll();
         _options.SetDisplay(IsCreating);
     }
@@ -84,6 +103,7 @@ public class ObjectCreator : MonoBehaviour {
     void MakeObject() {
         if (shapes[_currentShapeIndex] == null) return;
         GameObject go = Instantiate(shapes[_currentShapeIndex].gameObject, shapes[_currentShapeIndex].transform.position, shapes[_currentShapeIndex].transform.rotation, garbage);
+        Tweener.Instance.ScalePop(go.transform, 0.95f, 0.15f, EaseType.Cubic);
         Sliceable sliceable = go.GetComponent<Sliceable>();
         var (physics, fill) = _options.GetStatus();
         sliceable.SetOptions(physics, fill);

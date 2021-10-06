@@ -39,5 +39,7 @@ public class KeyboardPlanePlacer : UISlicer {
         PlayerController._excludeRotation = value;
         _isActive = value;
         _plane.SetActive(value);
+        if (value) ContextSensitiveHelper.Instance.AddHelp(ContextSensitiveHelper.Mode.PlaneSlice);
+        else ContextSensitiveHelper.Instance.RemoveHelp(ContextSensitiveHelper.Mode.PlaneSlice);
     }
 }

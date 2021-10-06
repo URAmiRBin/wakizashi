@@ -2,7 +2,10 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class InputManager : MonoBehaviour {
+    [SerializeField] float _doubleTapThreshold = .2f;
     public static UnityAction<bool> onSetInputLock;
+
+    float _lastResetTime;
 
     void Awake() => Cursor.visible = false;
 
@@ -22,14 +25,22 @@ public class InputManager : MonoBehaviour {
             KeyScreenCaster.PlayAnimationWithString("D");
         }
         else if (Input.GetKeyDown(KeyCode.R)) {
+            if (Time.time - _lastResetTime <= _doubleTapThreshold) {
+                Debug.Log("QUITING...");
+                Application.Quit();
+                return;
+            }
             KeyScreenCaster.PlayAnimationWithString("R");
             TrashCan.Recycle();
+            _lastResetTime = Time.time;
         }
         else if (Input.GetKeyDown(KeyCode.Escape)) {
             onSetInputLock?.Invoke(false);
         }
         else if (Input.GetKeyDown(KeyCode.Space)) {
             onSetInputLock?.Invoke(true);
+        } else if (Input.GetKeyDown(KeyCode.F1)) {
+            ContextSensitiveHelper.Instance.SwitchHelpDisplay();
         }
     }
 }

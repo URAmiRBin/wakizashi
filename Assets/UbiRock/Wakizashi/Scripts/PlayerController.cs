@@ -14,7 +14,11 @@ public class PlayerController : MonoBehaviour
 
     void Awake() => InputManager.onSetInputLock += SetInputLock;
 
-    void SetInputLock(bool value) => _isInputLock = value;
+    void SetInputLock(bool value) {
+        _isInputLock = value;
+        if (value) ContextSensitiveHelper.Instance.RemoveHelp(ContextSensitiveHelper.Mode.Move);
+        else ContextSensitiveHelper.Instance.AddHelp(ContextSensitiveHelper.Mode.Move);
+    }
 
     void Update()
     {
