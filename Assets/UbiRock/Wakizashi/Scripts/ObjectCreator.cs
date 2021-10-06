@@ -61,9 +61,11 @@ public class ObjectCreator : MonoBehaviour {
             } else if(Input.GetKey(KeyCode.Q)) {
                 shapes[_currentShapeIndex].transform.localScale -= Vector3.right * .01f;
             } else if(Input.GetKey(KeyCode.C)) {
-                shapes[_currentShapeIndex].transform.localScale += Vector3.up * .01f;
+                if (_currentShapeIndex == 1) shapes[_currentShapeIndex].transform.localScale += Vector3.forward * .01f;
+                else shapes[_currentShapeIndex].transform.localScale += Vector3.up * .01f;
             } else if(Input.GetKey(KeyCode.Z)) {
-                shapes[_currentShapeIndex].transform.localScale -= Vector3.up * .01f;
+                if (_currentShapeIndex == 1) shapes[_currentShapeIndex].transform.localScale -= Vector3.forward * .01f;
+                else shapes[_currentShapeIndex].transform.localScale -= Vector3.up * .01f;
             }
             else if (Input.GetKeyDown(KeyCode.Escape)) {
                 if (_currentShapeIndex != 0) shapes[_currentShapeIndex].enabled = false;
