@@ -52,11 +52,20 @@ public class ObjectCreator : MonoBehaviour {
         }
 
         if (IsCreating) {
-            if (Input.GetKeyDown(KeyCode.C)) {
+            if (Input.GetKeyDown(KeyCode.X)) {
                 _options.SwitchPhysics();
             } else if (Input.GetKeyDown(KeyCode.V)) {
                 _options.SwitchFill();
-            } else if (Input.GetKeyDown(KeyCode.Escape)) {
+            } else if(Input.GetKey(KeyCode.E)) {
+                shapes[_currentShapeIndex].transform.localScale += Vector3.right * .01f;
+            } else if(Input.GetKey(KeyCode.Q)) {
+                shapes[_currentShapeIndex].transform.localScale -= Vector3.right * .01f;
+            } else if(Input.GetKey(KeyCode.C)) {
+                shapes[_currentShapeIndex].transform.localScale += Vector3.up * .01f;
+            } else if(Input.GetKey(KeyCode.Z)) {
+                shapes[_currentShapeIndex].transform.localScale -= Vector3.up * .01f;
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape)) {
                 if (_currentShapeIndex != 0) shapes[_currentShapeIndex].enabled = false;
                 _currentShapeIndex = 0;
                 _options.SetDisplay(false);
