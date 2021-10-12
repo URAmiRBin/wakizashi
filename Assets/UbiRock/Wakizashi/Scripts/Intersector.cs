@@ -27,7 +27,6 @@ namespace UbiRock.Wakizashi.Toolkit {
             if (triangleStatus == TrianglePlaneRelation.NO_INTERSECTION) return null;
             if (triangleStatus == TrianglePlaneRelation.TWO_TRI) {
                 if (ra == PointToPlaneRelation.SURFACE) {
-                    // TODO: Calculate real normals
                     Vertex i = Intersect(plane, b, c);
                     result.AddNewVertex(new Vertex(i.Position, MathHelper.Project(i.Position, plane.Normal, Vector2.one * .5f) ,plane.Normal));
 
@@ -43,7 +42,6 @@ namespace UbiRock.Wakizashi.Toolkit {
                     }
                     return result;
                 } else if (rb == PointToPlaneRelation.SURFACE) {
-                    // TODO: Calculate real normals
                     Vertex i = Intersect(plane, a, c);
                     result.AddNewVertex(new Vertex(i.Position, MathHelper.Project(i.Position, plane.Normal, Vector2.one * .5f) ,plane.Normal));
 
@@ -59,7 +57,6 @@ namespace UbiRock.Wakizashi.Toolkit {
                     }
                     return result;
                 } else {
-                    // TODO: Calculate real normals
                     Vertex i = Intersect(plane, a, b);
                     result.AddNewVertex(new Vertex(i.Position, MathHelper.Project(i.Position, plane.Normal, Vector2.one * .5f) ,plane.Normal));
 
@@ -78,12 +75,10 @@ namespace UbiRock.Wakizashi.Toolkit {
             }
             if (triangleStatus == TrianglePlaneRelation.THREE_TRI) {
                 if (ra != rb) {
-                    // TODO: Calculate real normals
                     Vertex i1 = Intersect(plane, a, b);
                     result.AddNewVertex(new Vertex(i1.Position, MathHelper.Project(i1.Position, plane.Normal, Vector2.one * .5f) ,plane.Normal));
 
                     if (rc == ra) {
-                        // TODO: Calculate real normals
                         Vertex i2 = Intersect(plane, b, c);
                         result.AddNewVertex(new Vertex(i2.Position, MathHelper.Project(i2.Position, plane.Normal, Vector2.one * .5f) ,plane.Normal));
 
@@ -103,7 +98,6 @@ namespace UbiRock.Wakizashi.Toolkit {
                         return result;
                     }
                     else {
-                        // TODO: Calculate real normals
                         Vertex i2 = Intersect(plane, a, c);
                         result.AddNewVertex(new Vertex(i2.Position, MathHelper.Project(i2.Position, plane.Normal, Vector2.one * .5f) ,plane.Normal));
 
@@ -125,10 +119,8 @@ namespace UbiRock.Wakizashi.Toolkit {
                     }
                 }
                 else {
-                    // TODO: Calculate real normals
                     Vertex i1 = Intersect(plane, a, c);
                     result.AddNewVertex(new Vertex(i1.Position, MathHelper.Project(i1.Position, plane.Normal, Vector2.one * .5f) ,plane.Normal));
-                    // TODO: Calculate real normals
                     Vertex i2 = Intersect(plane, b, c);
                     result.AddNewVertex(new Vertex(i2.Position, MathHelper.Project(i2.Position, plane.Normal, Vector2.one * .5f) ,plane.Normal));
 
