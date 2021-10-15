@@ -8,7 +8,7 @@ namespace UbiRock.Wakizashi.Toolkit {
 
             bool isFill = fillTriangles != null;
 
-            int vertexCount = triangles.Count * 3 + (isFill ? fillTriangles.Count * 3 : triangles.Count * 3);
+            int vertexCount = triangles.Count * 3 + (isFill ? fillTriangles.Count * 3 : 0);
 
             Vector3[] vertecies = new Vector3[vertexCount];
             Vector3[] normals = new Vector3[vertexCount];
@@ -38,17 +38,6 @@ namespace UbiRock.Wakizashi.Toolkit {
                     indices[i + 1 + triangles.Count * 3] = i + triangles.Count * 3 + start + inc;
                     indices[i + 2 + triangles.Count * 3] = i + triangles.Count * 3 + start + inc + inc;
                 }
-            } else {
-                for(int i = 0; i < triangles.Count * 3; i += 3) {
-                    (vertecies[i + triangles.Count * 3], vertecies[i + 1 + triangles.Count * 3], vertecies[i + 2 + triangles.Count * 3]) = triangles[i / 3].GetPositions();
-                    (normals[i + triangles.Count * 3], normals[i + 1 + triangles.Count * 3], normals[i + 2 + triangles.Count * 3]) = triangles[i / 3].GetNormals(true);
-                    (uvs[i + triangles.Count * 3], uvs[i + 1 + triangles.Count * 3], uvs[i + 2 + triangles.Count * 3]) = triangles[i / 3].GetUVs();
-
-
-                    indices[i + triangles.Count * 3] = i + 2 + triangles.Count * 3;
-                    indices[i + 1 + triangles.Count * 3] = i + 1 + triangles.Count * 3;
-                    indices[i + 2 + triangles.Count * 3] = i + triangles.Count * 3;
-                }   
             }
             
 

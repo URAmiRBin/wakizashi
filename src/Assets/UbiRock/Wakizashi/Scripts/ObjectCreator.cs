@@ -110,5 +110,47 @@ public class ObjectCreator : MonoBehaviour {
         go.layer = 6;
         go.GetComponent<Renderer>().material = fill ? fillMaterial : emptyMaterial;
         go.GetComponent<Collider>().enabled = true;
+
+        if (!fill) {
+            Mesh result = new Mesh();
+            Mesh mesh = go.GetComponent<MeshFilter>().mesh;
+            int vertexCount = mesh.vertices.Length;
+            int[] tris = mesh.GetTriangles(0);
+            int[] indices = new int[tris.Length * 2];
+            Vector3[] vertecies = new Vector3[2 * vertexCount];
+            Vector3[] normals = new Vector3[2 * vertexCount];
+            Vector2[] uvs = new Vector2[2 * vertexCount];
+            
+            for(int i = 0; i < vertexCount; i += 1) {
+                vertecies[i] = mesh.vertices[i];
+                normals[i] = mesh.normals[i];
+                uvs[i] = mesh.uv[i];
+            }
+
+            for(int i = 0; i < tris.Length; i += 3) {
+                indices[i] = tris[i];
+                indices[i + 1] = tris[i + 1];
+                indices[i + 2] = tris[i + 2];
+            }
+
+            for(int i = 0; i < tris.Length; i += 3) {
+                indices[i + tris.Length] = tris[i + 2];
+                indices[i + 1 + tris.Length] = tris[i + 1];
+                indices[i + 2 + tris.Length] = tris[i];
+            }
+
+            for(int i = 0; i < vertexCount; i += 1) {
+                vertecies[i + vertexCount] = mesh.vertices[i];
+                normals[i + vertexCount] = -mesh.normals[i];
+                uvs[i + vertexCount] = mesh.uv[i];
+            }
+
+            result.vertices = vertecies;
+            result.normals = normals;
+            result.uv = uvs;
+            result.SetTriangles(indices, 0, false);
+
+            go.GetComponent<MeshFilter>().mesh = result;
+        }
     }
 }
